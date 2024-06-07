@@ -42,7 +42,7 @@ const Navbar = () => {
                         <NavLink to={"/about"} onClick={() => setShow(!show)}>  ABOUT US  </NavLink>
                     </div>
                     <div className='btn-dash'>
-                   <Link to={"https://hospital-management-dashboardpage.vercel.app"}> <button className="logoutBtn btn">Dashboard</button></Link>
+                   <Link to={"https://hospital-management-dashboardpage.vercel.app/"}> <button className="logoutBtn btn">Dashboard</button></Link>
                     {isAuthenticated ?
                         (<button className="logoutBtn btn" onClick={handleLogout}> LOGOUT </button>) :
                         (<button className="loginBtn btn" onClick={goToLogin}> LOGIN  </button>)
