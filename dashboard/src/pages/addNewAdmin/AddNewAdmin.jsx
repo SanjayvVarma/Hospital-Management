@@ -22,7 +22,7 @@ const AddNewAdmin = () => {
   const handleAddNewAdmin = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post("http://localhost:8080/api/v1/user/admin/addnew", { firstName, lastName, email, phone, nic, dob, gender, password }, {
+      const res = await axios.post("https://hospital-management-skck.onrender.com/api/v1/user/admin/addnew", { firstName, lastName, email, phone, nic, dob, gender, password }, {
         withCredentials: true,
         headers: { "Content-Type": "application/json" }
       })

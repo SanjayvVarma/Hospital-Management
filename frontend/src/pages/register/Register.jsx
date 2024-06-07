@@ -20,7 +20,7 @@ const Register = () => {
   const handleRegistration = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post("http://localhost:8080/api/v1/user/patient/register", { firstName, lastName, email, phone, nic, dob, gender, password, role: "Patient" }, {
+      const res = await axios.post("https://hospital-management-skck.onrender.com/api/v1/user/patient/register", { firstName, lastName, email, phone, nic, dob, gender, password, role: "Patient" }, {
         withCredentials: true,
         headers: { "Content-Type": "application/json" }
       })

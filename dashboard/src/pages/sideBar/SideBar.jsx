@@ -46,7 +46,7 @@ const SideBar = () => {
 
   const handleLogout = async () => {
     await axios
-      .get("http://localhost:8080/api/v1/user/admin/logout", {
+      .get("https://hospital-management-skck.onrender.com/api/v1/user/admin/logout", {
         withCredentials: true,
       })
       .then((res) => {

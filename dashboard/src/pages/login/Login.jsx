@@ -17,7 +17,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post("http://localhost:8080/api/v1/user/login", { email, password, confirmPassword, role: "Admin" }, {
+      const res = await axios.post("https://hospital-management-skck.onrender.com/api/v1/user/login", { email, password, confirmPassword, role: "Admin" }, {
         withCredentials: true,
         headers: { "Content-Type": "application/json" }
       })

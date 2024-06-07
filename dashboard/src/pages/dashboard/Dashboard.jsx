@@ -16,7 +16,7 @@ const Dashboard = () => {
   useEffect(() => {
     const registeredDoctors = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8080/api/v1/user/doctors", { withCredentials: true })
+        const { data } = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/doctors", { withCredentials: true })
         setDoctorsRegistered(data.doctors)
       } catch (error) {
         toast.error(error.response.data.message);
@@ -28,7 +28,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8080/api/v1/appointment/getall", { withCredentials: true })
+        const { data } = await axios.get("https://hospital-management-skck.onrender.com/api/v1/appointment/getall", { withCredentials: true })
         setAppointments(data.appointments)
       } catch (error) {
         setAppointments([])
@@ -43,7 +43,7 @@ const Dashboard = () => {
   const handleUpdateStatus = async (appointmentId, status) => {
     try {
       const { data } = await axios.put(
-        `http://localhost:8080/api/v1/appointment/update/${appointmentId}`,
+        `https://hospital-management-skck.onrender.com/api/v1/appointment/update/${appointmentId}`,
         { status },
         { withCredentials: true }
       );
@@ -64,7 +64,7 @@ const Dashboard = () => {
   // const handleUpdateStatus = async (appointmentId, status) => {
   //   try {
   //     const { data } = await axios.put(
-  //       `http://localhost:8080/api/v1/appointment/update/${appointmentId}`,
+  //       `https://hospital-management-skck.onrender.com/api/v1/appointment/update/${appointmentId}`,
   //       { status },
   //       { withCredentials: true }
   //     );

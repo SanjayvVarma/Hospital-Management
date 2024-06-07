@@ -14,7 +14,7 @@ const MessageForm = () => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:8080/api/v1/message/send", { firstName, lastName, email, phone, message }, {
+      await axios.post("https://hospital-management-skck.onrender.com/api/v1/message/send", { firstName, lastName, email, phone, message }, {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json"

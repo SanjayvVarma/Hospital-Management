@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/v1/user/patient/me", { withCredentials: true })
+        const res = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/patient/me", { withCredentials: true })
         setIsAuthenticated(true)
         setUser(res.data.user)
 

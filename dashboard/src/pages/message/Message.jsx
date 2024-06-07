@@ -12,7 +12,7 @@ const Message = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const { data } = await axios.get("http://localhost:8080/api/v1/message/getall", { withCredentials: true, })
+        const { data } = await axios.get("https://hospital-management-skck.onrender.com/api/v1/message/getall", { withCredentials: true, })
         setMessages(data.message)
       } catch (error) {
         console.log("ERROR OCCURED WILE FETCHING MESSAGE", error);

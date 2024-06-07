@@ -12,7 +12,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.get("http://localhost:8080/api/v1/user/patient/logout",
+            await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/patient/logout",
                 { withCredentials: true }
             ).then((res) => {
                 toast.success(res.data.message)
