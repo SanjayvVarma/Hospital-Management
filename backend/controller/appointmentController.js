@@ -3,7 +3,6 @@ import errorMiddlewares from "../middlewares/errorMiddleware.js";
 import User from "../models/userSchema.js";
 import Appointment from "../models/appointmentSchema.js";
 
-
 const postAppointment = catchAsyncErrors(async (req, res, next) => {
     const { firstName, lastName, email, phone, nic, dob, gender, appointment_date, department, doctor_firstName, doctor_lastName, hasVisited, address, } = req.body;
 

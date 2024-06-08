@@ -24,10 +24,10 @@ function App() {
         const res = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/patient/me", { withCredentials: true })
         setIsAuthenticated(true)
         setUser(res.data.user)
-
+        console.log("patient logged in successfully");
       } catch (error) {
-        // setIsAuthenticated(false)
-        // setUser({})
+        setIsAuthenticated(false)
+        setUser({})
         console.log("SOME ERROE");
       }
     }
