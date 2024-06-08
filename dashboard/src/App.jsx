@@ -1,9 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import axios from "axios";
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import DashboardProvider from "./contexts/DashboardProvider";
+import axios from "axios";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Login from "./pages/login/Login";
 import AddNewDoctor from "./pages/addNewDoctor/AddNewDoctor";
@@ -17,16 +16,10 @@ import "./App.css";
 const App = () => {
 
   const { isAuthenticated, setIsAuthenticated, setUser } = useContext(DashboardContext);
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(
-          "https://hospital-management-skck.onrender.com/api/v1/user/admin/me",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/admin/me", { withCredentials: true });
         setIsAuthenticated(true);
         setUser(response.data.user);
       } catch (error) {
@@ -38,8 +31,8 @@ const App = () => {
   }, [isAuthenticated]);
 
   return (
-    <DashboardProvider>
-       <SideBar />
+    <>
+      <SideBar />
       <Routes>
         <Route index path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
@@ -49,7 +42,7 @@ const App = () => {
         <Route path="/doctors" element={<Doctors />} />
       </Routes>
       <ToastContainer position="top-center" />
-    </DashboardProvider>
+    </>
   );
 };
 
