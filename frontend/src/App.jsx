@@ -9,30 +9,30 @@ import Login from './pages/login/Login';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/navbar/Navbar';
-import { useContext, useEffect } from 'react';
-import axios from 'axios';
-import AuthenticatedContext from './contexts/AuthenticatedContext.js';
+// import { useContext, useEffect } from 'react';
+// import axios from 'axios';
+// import AuthenticatedContext from './contexts/AuthenticatedContext.js';
 import Footer from './components/footer/Footer.jsx';
 
 function App() {
 
-  const { setUser, isAuthenticated, setIsAuthenticated } = useContext(AuthenticatedContext);
+  // const { setUser, isAuthenticated, setIsAuthenticated } = useContext(AuthenticatedContext);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/patient/me", { withCredentials: true })
-        setIsAuthenticated(true)
-        setUser(res.data.user)
-        console.log("patient logged in successfully");
-      } catch (error) {
-        setIsAuthenticated(false)
-        setUser({})
-        console.log("SOME ERROE");
-      }
-    }
-    fetchUser();
-  }, [isAuthenticated])
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const res = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/patient/me", { withCredentials: true })
+  //       setIsAuthenticated(true)
+  //       setUser(res.data.user)
+  //       console.log("patient logged in successfully");
+  //     } catch (error) {
+  //       setIsAuthenticated(false)
+  //       setUser({})
+  //       console.log("SOME ERROE");
+  //     }
+  //   }
+  //   fetchUser();
+  // }, [isAuthenticated])
 
   return (
     <AuthenticatedContextProvider>
