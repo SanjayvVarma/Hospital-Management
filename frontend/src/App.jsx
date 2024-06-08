@@ -32,7 +32,7 @@ function App() {
       }
     }
     fetchUser();
-  }, [!isAuthenticated])
+  }, [isAuthenticated])
 
   return (
     <AuthenticatedContextProvider>
