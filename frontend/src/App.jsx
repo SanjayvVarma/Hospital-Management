@@ -26,8 +26,9 @@ function App() {
         setUser(res.data.user)
 
       } catch (error) {
-        setIsAuthenticated(false)
-        setUser({})
+        // setIsAuthenticated(false)
+        // setUser({})
+        console.log("SOME ERROE");
       }
     }
     fetchUser();
