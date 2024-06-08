@@ -1,57 +1,50 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Navigate } from "react-router-dom";
-import axios from "axios";
-import { AiFillCloseCircle } from 'react-icons/ai';
-import { GoCheckCircleFill } from 'react-icons/go'
-import DashboardContext from '../../contexts/DashboardContext'
+import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import axios from "axios";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { AiFillCloseCircle } from 'react-icons/ai';
+import { GoCheckCircleFill } from 'react-icons/go';
+import DashboardContext from '../../contexts/DashboardContext';
 
 const Dashboard = () => {
 
-  const { isAuthenticated, user, setIsAuthenticated} = useContext(DashboardContext);
+  const { isAuthenticated, user, setIsAuthenticated } = useContext(DashboardContext);
   const [appointments, setAppointments] = useState([]);
   const [doctorsRegistered, setDoctorsRegistered] = useState([]);
-  
+  const navigateTo = useNavigate();
 
   useEffect(() => {
     const registeredDoctors = async () => {
       try {
-        const { data } = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/doctors", { withCredentials: true })
-        setDoctorsRegistered(data.doctors)
+        const { data } = await axios.get("http://localhost:8000/api/v1/user/doctors", { withCredentials: true });
+        setDoctorsRegistered(data.doctors);
       } catch (error) {
         toast.error(error.response.data.message);
       }
     }
-    registeredDoctors()
-  }, [])
+    registeredDoctors();
+  }, []);
 
   useEffect(() => {
     const fetchAppointments = async () => {
       try {
-        const { data } = await axios.get("https://hospital-management-skck.onrender.com/api/v1/appointment/getall", { withCredentials: true })
-        setAppointments(data.appointments)
+        const { data } = await axios.get("http://localhost:8000/api/v1/appointment/getall", { withCredentials: true });
+        setAppointments(data.appointments);
       } catch (error) {
-        setAppointments([])
+        setAppointments([]);
         console.log("SAME ERROR OCCURED WHILE FETCHING APPOINTMENTS", error);
       }
     }
     fetchAppointments();
-
-  }, [])
-
+  }, []);
 
   const handleUpdateStatus = async (appointmentId, status) => {
     try {
-      const { data } = await axios.put(
-        `https://hospital-management-skck.onrender.com/api/v1/appointment/update/${appointmentId}`,
-        { status },
-        { withCredentials: true }
-      );
+      const { data } = await axios.put(`http://localhost:8000/api/v1/appointment/update/${appointmentId}`, { status }, { withCredentials: true });
       setAppointments((prevAppointments) =>
         prevAppointments.map((appointment) =>
-          appointment._id === appointmentId
-            ? { ...appointment, status }
-            : appointment
+          appointment._id === appointmentId ? { ...appointment, status } : appointment
         )
       );
       toast.success(data.message);
@@ -60,35 +53,30 @@ const Dashboard = () => {
     }
   };
 
+  const gotoDoctorsPage = () => {
+    navigateTo("/doctors");
+    setShow(!show);
+  };
 
-  // const handleUpdateStatus = async (appointmentId, status) => {
-  //   try {
-  //     const { data } = await axios.put(
-  //       `https://hospital-management-skck.onrender.com/api/v1/appointment/update/${appointmentId}`,
-  //       { status },
-  //       { withCredentials: true }
-  //     );
-  //     setAppointments((prevAppointments) =>
-  //       prevAppointments.map((appointment) =>
-  //         appointment._id === appointmentId
-  //           ? { ...appointment, status }
-  //           : appointment
-  //       )
-  //     );
-  //     toast.success(data.message);
-  //   } catch (error) {
-  //     toast.error(error.response.data.message);
-  //   }
-  // };
 
-  
- if (!isAuthenticated) {
-   return <Navigate to={"/login"} />
-  } 
+  const handleDeleteAppoin = async (appointmentId) => {
+    try {
+      const { data } = await axios.delete(`http://localhost:8000/api/v1/appointment/delete/${appointmentId}`, { withCredentials: true });
+      setAppointments((prevAppointments) =>
+        prevAppointments.filter((appointment) => appointment._id !== appointmentId)
+      );
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  if (!isAuthenticated) {
+    return <Navigate to={"/login"} />
+  };
 
   return (
     <>
-    
       <section className="dashboard page">
         <div className="banner">
           <div className="firstBox">
@@ -98,11 +86,7 @@ const Dashboard = () => {
                 <p>Hello,</p>
                 <h5>{user && `${user.firstName} ${user.lastName}`}</h5>
               </div>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Facilis, nam molestias. Eaque molestiae ipsam commodi neque.
-                Assumenda repellendus necessitatibus itaque.
-              </p>
+              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis, nam molestias. Eaque molestiae ipsam commodi neque. Assumenda repellendus necessitatibus itaque. </p>
             </div>
           </div>
           <div className="secondBox">
@@ -111,7 +95,7 @@ const Dashboard = () => {
           </div>
           <div className="thirdBox">
             <p>Registered Doctors</p>
-            <h3>{doctorsRegistered.length}</h3>
+            <h3 onClick={gotoDoctorsPage}>{doctorsRegistered.length}</h3>
           </div>
         </div>
         <div className="banner">
@@ -125,6 +109,7 @@ const Dashboard = () => {
                 <th>Department</th>
                 <th>Status</th>
                 <th>Visited</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -137,53 +122,38 @@ const Dashboard = () => {
                     <td>{appointment.department}</td>
                     <td>
                       <select
-                        className={
-                          appointment.status === "Pending"
-                            ? "value-pending"
-                            : appointment.status === "Accepted"
-                              ? "value-accepted"
-                              : "value-rejected"
-                        }
+                        className={appointment.status === "Pending" ? "value-pending" : appointment.status === "Accepted" ? "value-accepted" : "value-rejected"}
                         value={appointment.status}
-                        onChange={(e) =>
-                          handleUpdateStatus(appointment._id, e.target.value)
-                        }
+                        onChange={(e) => handleUpdateStatus(appointment._id, e.target.value)}
                       >
-                        <option value="Pending" className="value-pending">
-                          Pending
-                        </option>
-                        <option value="Accepted" className="value-accepted">
-                          Accepted
-                        </option>
-                        <option value="Rejected" className="value-rejected">
-                          Rejected
-                        </option>
+                        <option value="Pending" className="value-pending"> Pending </option>
+                        <option value="Accepted" className="value-accepted"> Accepted </option>
+                        <option value="Rejected" className="value-rejected"> Rejected </option>
                       </select>
                     </td>
                     <td>
-                      {appointment.hasVisited === true ? (
-                        <GoCheckCircleFill className="green" />
-                      ) : (
-                        <AiFillCloseCircle className="red" />
-                      )}
+                      {appointment.hasVisited === true ?
+                        (<GoCheckCircleFill className="green" />) :
+                        (<AiFillCloseCircle className="red" />)
+                      }
+                    </td>
+                    <td>
+                      <button onClick={() => handleDeleteAppoin(appointment._id)} className="delete-button" >
+                        <RiDeleteBinLine />
+                      </button>
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" style={{ textAlign: "center" }}>
-                    No Appointments Found!
-                  </td>
+                ))) :
+                (<tr>
+                  <td colSpan="6" style={{ textAlign: "center" }}> No Appointments Found!</td>
                 </tr>
-              )}
+                )}
             </tbody>
           </table>
         </div>
       </section>
     </>
-
-
   )
-}
+};
 
 export default Dashboard;
