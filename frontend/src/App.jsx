@@ -22,7 +22,7 @@ function App() {
     const fetchUser = async () => {
       try {
         const res = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/patient/me", { withCredentials: true })
-        setIsAuthenticated(true)
+        setIsAuthenticated(false)
         setUser(res.data.user)
         console.log("patient logged in successfully");
       } catch (error) {
