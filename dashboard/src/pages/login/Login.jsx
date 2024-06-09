@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import ClimbingBoxLoader from "react-spinners/ClipLoader";
+import CircleLoader from "react-spinners/ClipLoader";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import DashboardContext from '../../contexts/DashboardContext.js';
@@ -13,7 +13,6 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigateTo = useNavigate();
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -34,7 +33,6 @@ const Login = () => {
     setLoading(false)
   }
 
-
   if (isAuthenticated) {
     return <Navigate to={"/"} />
   }
@@ -42,7 +40,7 @@ const Login = () => {
   return (
     <>
       {
-        loading ? <ClimbingBoxLoader color="#36d7b7" size={100} /> :
+        loading ? <CircleLoader color="#ffffff" size={200} /> :
           <section className="container form-component">
             <img src="/logo.png" alt="logo" className="logo" />
             <h1 className="form-title">WELCOME TO ZEECARE</h1>
