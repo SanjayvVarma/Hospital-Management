@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import AuthenticatedContext from '../../contexts/AuthenticatedContext.js'
 import { useState } from 'react';
+import CircleLoader from "react-spinners/ClipLoader";
 import { useNavigate, Link,  } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -11,11 +12,12 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const navigateTo = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    setLoading(true);
     try {
       const res = await axios.post("https://hospital-management-skck.onrender.com/api/v1/user/login", { email, password, confirmPassword, role: "Patient" }, {
         withCredentials: true,
@@ -27,6 +29,7 @@ const Login = () => {
     } catch (error) {
       toast.error(error.response.data.message)
     }
+    setLoading(false)
   }
 
   if (isAuthenticated) {
@@ -35,6 +38,8 @@ const Login = () => {
 
   return (
     <>
+       {
+        loading ? <CircleLoader color="#DE12C3" size={180} /> :
       <div className="container form-component login-form">
         <h2>Sign In</h2>
         <p>Please Login To Continue</p>
@@ -82,8 +87,9 @@ const Login = () => {
           </div>
         </form>
       </div>
+}
     </>
   )
 }
 
-export default Login
+export default Login;
