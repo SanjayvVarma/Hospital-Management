@@ -40,7 +40,7 @@ const Login = () => {
   return (
     <>
       {
-        loading ? <div className="loader"><CircleLoader color="#ffffff" size={180} /> </div> :
+        loading ? <CircleLoader justify-content="center" align-items="center" color="#ffffff" size={180} /> :
           <section className="container form-component">
             <img src="/logo.png" alt="logo" className="logo" />
             <h1 className="form-title">WELCOME TO ZEECARE</h1>
