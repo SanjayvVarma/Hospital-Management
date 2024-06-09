@@ -383,6 +383,13 @@ body {
     left: -100%;
     transition: 0.3s;
   }
+
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+  }
   .show {
     left: 0;
     transition: 0.3s;
