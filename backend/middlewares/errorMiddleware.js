@@ -2,8 +2,8 @@ class ErrorHandler extends Error {
     constructor(message, statusCode) {
         super(message);
         this.statusCode = statusCode;
-    }
-}
+    };
+};
 
 const errorMiddleware = (err, req, res, next) => {
     err.message = err.message || "Internal Server Error";
@@ -12,22 +12,22 @@ const errorMiddleware = (err, req, res, next) => {
     if (err.code === 11000) {
         const message = `Duplicate ${Object.keys(err.keyValue)} Entered`;
         err = new ErrorHandler(message, 400);
-    }
+    };
 
     if (err.name === "JsonWebTokenError") {
         const message = "Json web token is invalid, Try Again !";
         err = new ErrorHandler(message, 400);
-    }
+    };
 
     if (err.name === "TokenExpiredError") {
         const message = "Json web token is invalid, Try Again !";
-        err = new ErrorHandler(message, 400)
-    }
+        err = new ErrorHandler(message, 400);
+    };
 
     if (err.name === "CastError") {
         const message = `Invalid ${err.path}`;
-        err = new ErrorHandler(message, 400)
-    }
+        err = new ErrorHandler(message, 400);
+    };
 
     const errorMessage = err.errors
         ? Object.values(err.errors)
@@ -37,13 +37,12 @@ const errorMiddleware = (err, req, res, next) => {
 
     return res.status(err.statusCode).json({
         success: false,
-        // message: err.message,
         message: errorMessage,
     });
-}
+};
 
 const errorMiddlewares = {
     errorMiddleware,
-    ErrorHandler
-}
-export default errorMiddlewares
+    ErrorHandler,
+};
+export default errorMiddlewares;

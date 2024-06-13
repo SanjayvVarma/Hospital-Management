@@ -14,5 +14,4 @@ router.get("/admin/logout", autheAutho.isAdminAuthenticated, userControllers.log
 router.get("/patient/logout", autheAutho.isPatientAuthenticated, userControllers.logoutPatient);
 router.post("/doctor/addNew", autheAutho.isAdminAuthenticated, userControllers.addNewDoctor);
 
-
-export default router
+export default router;
