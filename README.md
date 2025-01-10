@@ -48,13 +48,13 @@ It aims to provide a seamless experience for both hospital staff (doctors, admin
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/hospital-management-system.git
+   git clone https://github.com/SanjayvVarma/Hospital-Management.git
    ```
 
 2. Navigate to the project folder:
 
    ```bash
-   cd hospital-management-system
+   cd Hospital-Management
    ```
 
 3. Install dependencies for both frontend and backend:
@@ -99,25 +99,25 @@ It aims to provide a seamless experience for both hospital staff (doctors, admin
 
      ```bash
      cd backend
-     npm start
+     npm run dev
      ```
 
    - **Frontend**:
 
      ```bash
      cd frontend
-     npm start
+     npm run dev
      ```
 
    - **Dashboard**:
 
      ```bash
      cd dashboard
-     npm start
+     npm run dev
      ```
 
 
-6. Your API will be running on `http://localhost:5000` and frontend on `http://localhost:3000`.
+6. Your API will be running on `http://localhost:your_port` and frontend on `http://localhost:5173`.
 
 ---
 
