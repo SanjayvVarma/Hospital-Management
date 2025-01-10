@@ -73,6 +73,13 @@ It aims to provide a seamless experience for both hospital staff (doctors, admin
      npm install
      ```
 
+   - **For Dashboard**:
+
+     ```bash
+     cd dashboard
+     npm install
+     ```
+
 4. Create a `.env` file in the root directory and add your environment variables for both frontend and backend.
 
    - **Backend**:
@@ -85,11 +92,6 @@ It aims to provide a seamless experience for both hospital staff (doctors, admin
      CLOUDINARY_API_SECRET=your_cloudinary_api_secret
      ```
 
-   - **Frontend** (if necessary):
-
-     ```bash
-     REACT_APP_API_URL=http://localhost:5000/api/v1
-     ```
 
 5. Start the development server for both frontend and backend:
 
@@ -107,7 +109,7 @@ It aims to provide a seamless experience for both hospital staff (doctors, admin
      npm start
      ```
 
-    - **Dashboard**:
+   - **Dashboard**:
 
      ```bash
      cd dashboard
