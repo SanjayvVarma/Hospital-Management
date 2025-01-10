@@ -108,6 +108,14 @@ It aims to provide a seamless experience for both hospital staff (doctors, admin
      npm start
      ```
 
+    - **Dashboard**:
+
+     ```bash
+     cd dashboard
+     npm start
+     ```
+
+
 6. Your API will be running on `http://localhost:5000` and frontend on `http://localhost:3000`.
 
 ---
@@ -249,26 +257,12 @@ The system uses a custom error handler to catch errors and return meaningful res
 
 ---
 
-## Contributing
-
-Contributions are welcome! Please follow these steps to contribute:
-
-1. Fork the repository.
-2. Create a new branch for your changes.
-3. Make your changes and commit them.
-4. Push your changes and create a pull request.
-
----
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
 
 ### Steps to Use:
 
 1. **Save** the content above into a `README.md` file in the root directory of your project.
 2. **Update** any project-specific details such as repository links and Cloudinary settings.
 3. **Share** the `README.md` with your team or public repository users for easy setup, installation, and usage instructions.
-
-Let me know if you need any further adjustments!
