@@ -50,3 +50,26 @@ A comprehensive web application designed to manage various hospital-related func
 
    ```bash
    cd hospital-management-system
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+
+4. Create a .env file in the root directory and add your environment variables:
+
+   ```bash   
+   MONGO_URL=your_mongo_database_url
+   JWT_SECRET_KEY=your_jwt_secret_key
+   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+   CLOUDINARY_API_KEY=your_cloudinary_api_key
+   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+5. Start the development server:
+   
+   ```bash
+   npm run dev
+
+6. Your API will be running on   
+
+
