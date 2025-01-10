@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Hospital Management System** is a web application designed to streamline hospital operations by offering various features like user management, appointment scheduling, and messaging systems. The system allows patients to book appointments with doctors, communicate through messages, and provides an admin dashboard to manage users (patients, doctors, and admins). 
+The **Hospital Management System** is a web application designed to streamline hospital operations by offering various features like user management, appointment scheduling, and messaging systems. The system allows patients to book appointments with doctors, communicate through messages, and provides an admin dashboard to manage users (patients, doctors, and admins). <br>
 It aims to provide a seamless experience for both hospital staff (doctors, admins) and patients by integrating essential features required to run a hospital efficiently.
 
 ### Features
