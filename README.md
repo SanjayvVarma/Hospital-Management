@@ -45,3 +45,8 @@ A comprehensive web application designed to manage various hospital-related func
 
    ```bash
    git clone https://github.com/yourusername/hospital-management-system.git
+
+2. Navigate to the project folder:
+
+   ```bash
+   cd hospital-management-system
