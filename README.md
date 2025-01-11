@@ -27,7 +27,7 @@ It aims to provide a seamless experience for both hospital staff (doctors, admin
 
 ### Tech Stack
 
-- **Frontend**: ReactJS
+- **Frontend**: ReactJS, Context API
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Authentication**: JWT (JSON Web Tokens)
@@ -80,7 +80,7 @@ It aims to provide a seamless experience for both hospital staff (doctors, admin
      npm install
      ```
 
-4. Create a `.env` file in the root directory and add your environment variables for both frontend and backend.
+4. Create a `.env` file in the root directory and add your environment variables for and backend.
 
    - **Backend**:
 
@@ -261,9 +261,3 @@ The system uses a custom error handler to catch errors and return meaningful res
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-### Steps to Use:
-
-1. **Save** the content above into a `README.md` file in the root directory of your project.
-2. **Update** any project-specific details such as repository links and Cloudinary settings.
-3. **Share** the `README.md` with your team or public repository users for easy setup, installation, and usage instructions.
