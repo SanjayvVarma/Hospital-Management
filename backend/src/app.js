@@ -10,7 +10,7 @@ const app = express();
 config({ path: "./.env" });
 
 app.use(cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: [process.env.FRONTEND_CORS_ORIGIN, process.env.DASHBOARD_CORS_ORIGIN],
     credentials: true,
 }));
 
