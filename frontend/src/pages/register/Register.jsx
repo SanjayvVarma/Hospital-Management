@@ -1,12 +1,10 @@
-import React, { useContext, useState } from 'react'
-import AuthenticatedContext from '../../contexts/AuthenticatedContext.js';
+import {  useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Register = () => {
 
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthenticatedContext);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -25,7 +23,6 @@ const Register = () => {
         headers: { "Content-Type": "application/json" }
       })
       toast.success(res.data.message)
-      setIsAuthenticated(true)
       navigateTo("/")
     } catch (error) {
       toast.error(error.response.data.message)

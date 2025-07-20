@@ -1,61 +1,45 @@
-import React, { useContext, useState } from 'react';
-import { Link, NavLink, useNavigate } from "react-router-dom"
-import AuthenticatedContext from '../../contexts/AuthenticatedContext';
-import { toast } from "react-toastify";
-import { GiHamburgerMenu } from "react-icons/gi"
-import axios from 'axios';
+import './navbar.scss';
+import { useContext, useState } from 'react';
+import { FaBars, FaTimes } from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from '../../contexts/AppContexts';
+
 const Navbar = () => {
 
-    const [show, setShow] = useState(false)
-    const { isAuthenticated, setIsAuthenticated } = useContext(AuthenticatedContext)
-    const navigateTo = useNavigate()
-
-    const handleLogout = async () => {
-        try {
-            await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/patient/logout",
-                { withCredentials: true }
-            ).then((res) => {
-                toast.success(res.data.message)
-                setIsAuthenticated(false)
-            })
-
-        } catch (error) {
-            toast.error(error.response.data.message);
-        }
-    }
-
-    const goToLogin = async () => {
-        navigateTo("/login")
-    }
-
+    const [show, setShow] = useState(false);
+    const { isAuth } = useContext(AuthContext);
 
     return (
-        <>
-            <nav className={"container"}>
-                <div className="logo">
-                    <img src="/logo.png" alt="logo" className="logo-img" />
+        <div>
+            <nav className="container">
+                <div className="container__logo">
+                    <img src="/logo.png" alt="logo" className="container__logo__img" />
                 </div>
-                <div className={show ? "navLinks showmenu" : "navLinks"}>
-                    <div className="links">
-                        <NavLink to={"/"} onClick={() => setShow(!show)}> HOME </NavLink>
-                        <NavLink to={"/appointment"} onClick={() => setShow(!show)}> APPOINTMENTS  </NavLink>
-                        <NavLink to={"/about"} onClick={() => setShow(!show)}>  ABOUT US  </NavLink>
+
+                <div className={show ? "container__navLinks container__showmenu" : "container__navLinks"}>
+
+                    <div className="container__navLinks__links">
+                        <NavLink to="/" onClick={() => setShow(!show)}>Home</NavLink>
+                        <NavLink to="/appointment" onClick={() => setShow(!show)}>Appointments</NavLink>
+                        <NavLink to="/about" onClick={() => setShow(!show)}>About Us</NavLink>
                     </div>
-                    <div className='btn-dash'>
-                   <Link to={"https://hospital-management-dashboardpage.vercel.app/"}> <button className="logoutBtn btn">Dashboard</button></Link>
-                    {isAuthenticated ?
-                        (<button className="logoutBtn btn" onClick={handleLogout}> LOGOUT </button>) :
-                        (<button className="loginBtn btn" onClick={goToLogin}> LOGIN  </button>)
-                    }
+
+                    <div className='container__navLinks__btn'>
+                        {isAuth ? (
+                            <NavLink to="/dashboard" onClick={() => setShow(!show)} className="container__navLinks__btn__dashBtn">Dashboard</NavLink>
+                        ) : (
+                            <NavLink to="/login" onClick={() => setShow(!show)} className="container__navLinks__btn__loginBtn" >LOGIN</NavLink>
+                        )}
                     </div>
 
                 </div>
-                <div className="hamburger" onClick={() => setShow(!show)}>
-                    <GiHamburgerMenu />
+
+                <div className="container__hamburger" onClick={() => setShow(!show)}>
+                    {show ? <FaTimes /> : <FaBars />}
                 </div>
             </nav>
-        </>
+        </div>
     )
 }
 
-export default Navbar
+export default Navbar;
