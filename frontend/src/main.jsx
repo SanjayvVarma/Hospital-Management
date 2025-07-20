@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
-import { BrowserRouter as Router } from "react-router-dom";
 import './index.css';
-import AuthenticatedContextProvider from './contexts/AuthenticatedContextProvider.jsx';
+import App from './App.jsx';
+import { BrowserRouter } from "react-router-dom";
+import AppContextProvider from './contexts/AppContextProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthenticatedContextProvider>
-      <Router>
+    <AppContextProvider>
+      <BrowserRouter>
         <App />
-      </Router>
-    </AuthenticatedContextProvider>
+      </BrowserRouter>
+    </AppContextProvider>
   </React.StrictMode>,
 )
