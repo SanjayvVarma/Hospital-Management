@@ -1,0 +1,71 @@
+.container-depart {
+  padding: 30px 20px;
+  background-color: #c5e6d8;
+
+  h2 {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #2d2c2c;
+  }
+
+  .container-depart__card {
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    margin: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 5px;
+      display: block;
+    }
+
+    .container-depart__depart-name {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container-depart {
+    padding: 40px 10px;
+
+    h2 {
+      font-size: 28px;
+    }
+
+    .container-depart__card {
+      img {
+        height: 180px;
+      }
+
+      .container-depart__depart-name {
+        font-size: 18px;
+        padding: 8px;
+      }
+    }
+  }
+}

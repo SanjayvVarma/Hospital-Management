@@ -1,4 +1,4 @@
-import React from 'react'
+import "./departments.scss";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
@@ -49,27 +49,27 @@ const Departments = () => {
       breakpoint: { max: 3000, min: 1324 },
       items: 4,
       slidesToScroll: 4,
-      slidesToSlide: 1, // optional, default to 1.
+      slidesToSlide: 1,
       infinite: true,
     },
     large: {
       breakpoint: { max: 1324, min: 1005 },
       items: 3,
-      slidesToSlide: 1, // optional, default to 1.
+      slidesToSlide: 1,
       slidesToScroll: 3,
       infinite: true,
     },
     medium: {
       breakpoint: { max: 1005, min: 700 },
       items: 2,
-      slidesToSlide: 1, // optional, default to 1.
+      slidesToSlide: 1,
       slidesToScroll: 2,
       infinite: true,
     },
     small: {
       breakpoint: { max: 700, min: 0 },
       items: 1,
-      slidesToSlide: 1, // optional, default to 1.
+      slidesToSlide: 1,
       slidesToScroll: 1,
       infinite: true,
     },
@@ -77,7 +77,7 @@ const Departments = () => {
 
   return (
     <>
-      <div className="container departments">
+      <div className="container-depart">
         <h2>Departments</h2>
         <Carousel
           responsive={responsive}
@@ -89,8 +89,8 @@ const Departments = () => {
           {
             departmentsArray.map((depart, index) => {
               return (
-                <div className="card" key={index}>
-                  <div className="depart-name">{depart.name}</div>
+                <div className="container-depart__card" key={index}>
+                  <div className="container-depart__depart-name">{depart.name}</div>
                   <img src={depart.imageUrl} alt={depart.name} />
                 </div>
               )
@@ -102,4 +102,4 @@ const Departments = () => {
   )
 }
 
-export default Departments
+export default Departments;
