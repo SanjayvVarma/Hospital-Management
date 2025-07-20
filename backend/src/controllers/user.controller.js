@@ -1,5 +1,5 @@
 import User from "../models/user.model.js";
-import ApiError from "../utils/apiError.js";
+import ApiError from "../utils/ApiError.js";
 import catchAsync from "../utils/catchAsync.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { JWT_COOKIE_OPTIONS } from "../constants.js";
