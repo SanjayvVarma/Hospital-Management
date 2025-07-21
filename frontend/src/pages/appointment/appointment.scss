@@ -1,0 +1,77 @@
+.loginReminder {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 40px 30px;
+    text-align: center;
+    background-color: #fff6f6;
+    border: 1px solid #f5c2c7;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    color: #333;
+
+    h2 {
+        font-size: 28px;
+        color: #c0392b;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 18px;
+        margin-bottom: 12px;
+        line-height: 1.6;
+    }
+
+    strong {
+        color: #c0392b;
+    }
+
+    &__btn {
+        display: inline-block;
+        margin-top: 25px;
+        background-color: #c0392b;
+        color: #fff;
+        padding: 12px 28px;
+        border-radius: 6px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #a93226;
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 30px 20px;
+
+        h2 {
+            font-size: 24px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        &__btn {
+            padding: 10px 24px;
+            font-size: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        padding: 25px 15px;
+
+        h2 {
+            font-size: 22px;
+        }
+
+        p {
+            font-size: 15px;
+        }
+
+        &__btn {
+            padding: 9px 20px;
+            font-size: 14px;
+        }
+    }
+}
