@@ -1,10 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaLocationArrow, FaPhone } from "react-icons/fa6";
-import { MdEmail } from "react-icons/md"
+import "./footer.scss";
+import logo from "/logo.png";
 import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
-import logo from "/public/logo.png"
-import "./footer.scss"
 
 const Footer = () => {
 
