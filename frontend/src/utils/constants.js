@@ -1,0 +1,33 @@
+const DOCTOR_DEPARTMENT = [
+    "Cardiology",
+    "Neurology",
+    "Orthopedics",
+    "Pediatrics",
+    "Gynecology",
+    "Dermatology",
+    "Psychiatry",
+    "Oncology",
+    "Radiology",
+    "General Medicine",
+    "ENT",
+    "Urology",
+    "Gastroenterology",
+    "Anesthesiology",
+    "Nephrology",
+    "Endocrinology",
+    "Rheumatology",
+    "Pulmonology",
+    "Hematology",
+    "Pathology",
+    "Emergency Medicine",
+    "Family Medicine",
+    "Infectious Disease",
+    "Sports Medicine",
+    "Rehabilitation",
+    "Sexology",
+    "Plastic Surgery",
+    "Dentistry",
+    "Ophthalmology"
+];
+
+export { DOCTOR_DEPARTMENT }
