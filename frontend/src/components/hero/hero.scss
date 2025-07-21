@@ -1,7 +1,7 @@
 .container-hero {
   display: flex;
   gap: 40px;
-  padding: 30px ;
+  padding: 30px;
   position: relative;
 
   &__banner {
@@ -28,26 +28,30 @@
       }
     }
 
-    .container__banner__title,
-    .container__banner__pera {
+    &__title,
+    &__pera {
       max-width: 700px;
     }
 
-    .container__banner__title {
+    &__title {
       letter-spacing: 2px;
       word-spacing: 5px;
       font-size: 35px;
     }
 
-    .container__banner__pera {
+    &__pera {
       color: #313030;
       letter-spacing: 2px;
       font-style: italic;
       font-size: 19px;
     }
 
-    .container-hero__banner__image {
+    &__image {
       animation: moveUpDown 1s infinite alternate ease-in-out;
+    }
+
+    &__vector {
+      width: 82%;
     }
   }
 }
