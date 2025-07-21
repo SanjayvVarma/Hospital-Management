@@ -1,0 +1,121 @@
+.appointment {
+    padding: 40px 20px;
+    max-width: 90%;
+    margin: 0 auto;
+    background-color: #ece9e9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+    h2 {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        &__input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+
+            >div {
+                flex: 1 1 calc(50% - 10px);
+                display: flex;
+                flex-direction: column;
+
+                label {
+                    margin-bottom: 6px;
+                    font-weight: 500;
+                    color: #444;
+                }
+
+                input,
+                select {
+                    padding: 10px 14px;
+                    border: 1px solid #ccc;
+                    border-radius: 6px;
+                    font-size: 15px;
+                    transition: border-color 0.2s ease;
+
+                    &:focus {
+                        border-color: #007bff;
+                        outline: none;
+                    }
+                }
+            }
+        }
+
+        &__text {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                margin-bottom: 6px;
+                font-weight: 500;
+                color: #444;
+            }
+
+            textarea {
+                padding: 10px 14px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                font-size: 15px;
+                resize: vertical;
+                min-height: 100px;
+
+                &:focus {
+                    border-color: #007bff;
+                    outline: none;
+                }
+            }
+        }
+
+        &__checkbox {
+            label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: 500;
+                color: #444;
+
+                input[type="checkbox"] {
+                    width: 18px;
+                    height: 18px;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        &__btn {
+            text-align: center;
+
+            button {
+                background-color: #007bff;
+                color: #fff;
+                padding: 12px 28px;
+                font-size: 16px;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .appointment__form__input {
+        >div {
+            flex: 1 1 100%;
+        }
+    }
+}

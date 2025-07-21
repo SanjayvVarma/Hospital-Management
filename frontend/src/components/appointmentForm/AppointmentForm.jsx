@@ -1,7 +1,10 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import './appointment.scss';
+import Loader from '../loader/Loader';
 import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DOCTOR_DEPARTMENT } from '../../utils/constants';
 
 const AppointmentForm = () => {
 
@@ -9,83 +12,96 @@ const AppointmentForm = () => {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
-    const [nic, setNic] = useState("");
+    const [uid, setUid] = useState("");
     const [dob, setDob] = useState("");
     const [gender, setGender] = useState("");
     const [appointmentDate, setAppointmentDate] = useState("");
-    const [department, setDepartment] = useState("Pediatrics");
-    const [doctorFirstName, setDoctorFirstName] = useState("");
-    const [doctorLastName, setDoctorLastName] = useState("");
+    const [department, setDepartment] = useState("");
+    const [doctor, setDoctor] = useState("");
     const [address, setAddress] = useState("");
     const [hasVisited, setHasVisited] = useState(false);
-    const navigateTo = useNavigate()
-
-    const departmentsArray = [
-        "Pediatrics",
-        "Orthopedics",
-        "Cardiology",
-        "Neurology",
-        "Oncology",
-        "Radiology",
-        "Physical Therapy",
-        "Dermatology",
-        "ENT",
-    ];
-
     const [doctors, setDoctors] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDoctors = async () => {
-            const { data } = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/doctors",
-                { withCredentials: true }
-            );
-            setDoctors(data.doctors);
-            // console.log(data.doctors);
-        };
+            setIsLoading(true);
+            try {
+                const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-doctors`,
+                    { withCredentials: true }
+                );
+
+                if (res.data.success) {
+                    setDoctors(res.data.data)
+                }
+
+            } catch (error) {
+                toast.error(error?.response?.data.message || "Doctors fetch failed");
+            } finally {
+                setIsLoading(false);
+            }
+        }
         fetchDoctors();
-    }, []);
+    }, [department]);
+
+    useEffect(() => {
+        setDoctor("");
+    }, [department]);
 
     const handleAppointment = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+
         try {
-            const hasVisitedBool = Boolean(hasVisited);
-            const {data} = await axios.post("https://hospital-management-skck.onrender.com/api/v1/appointment/post", {
-                firstName,
-                lastName,
-                email,
-                phone,
-                nic,
-                dob,
-                gender,
-                appointment_date: appointmentDate,
-                department,
-                doctor_firstName: doctorFirstName,
-                doctor_lastName: doctorLastName,
-                hasVisited: hasVisitedBool,
-                address,
-            }, { withCredentials: true, headers: { "Content-Type": "application/json" } })
+            const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/appointment/create`,
+                { firstName, lastName, email, phone, uid, dob, gender, appointmentDate, department, doctor, hasVisited, address },
+                { withCredentials: true, headers: { "Content-Type": "application/json" } }
+            );
 
-            toast.success(data.message)
+            if (res.data.success) {
+                toast.success(res.data.message);
+                navigate("/");
+                setFirstName('');
+                setLastName('');
+                setEmail('');
+                setPhone('');
+                setUid('');
+                setDob('');
+                setGender('');
+                setAppointmentDate('');
+                setAddress('');
+                setDepartment('');
+                setDoctor('');
+                setHasVisited(false);
+            }
 
-            navigateTo("/")
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error?.response?.data?.message || "Appointment Send Failed");
+        } finally {
+            setIsLoading(false);
         }
     }
 
-
     return (
-        <>
-            <div className="container form-component appointment-form">
-                <h2>Appointment</h2>
-                <form onSubmit={handleAppointment}>
+        <div className="appointment">
+            <h2>Appointment</h2>
+            {isLoading && <Loader />}
+
+            <form className='appointment__form' onSubmit={handleAppointment}>
+                <div className='appointment__form__input'>
                     <div>
+                        <label>First Name</label>
                         <input
                             type="text"
                             placeholder="First Name"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                         />
+                    </div>
+
+                    <div>
+                        <label>Last Name</label>
                         <input
                             type="text"
                             placeholder="Last Name"
@@ -93,93 +109,145 @@ const AppointmentForm = () => {
                             onChange={(e) => setLastName(e.target.value)}
                         />
                     </div>
+                </div>
+
+                <div className='appointment__form__input'>
                     <div>
+                        <label>Email</label>
                         <input
-                            type="text"
+                            type="email"
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
+                    </div>
+
+                    <div>
+                        <label>Mobile Number</label>
                         <input
-                            type="number"
+                            type="tel"
                             placeholder="Mobile Number"
                             value={phone}
+                            pattern="[0-9]{10}"
+                            maxLength={10}
                             onChange={(e) => setPhone(e.target.value)}
                         />
                     </div>
+                </div>
+
+                <div className='appointment__form__input'>
                     <div>
+                        <label>UID</label>
                         <input
-                            type="number"
-                            placeholder="NIC"
-                            value={nic}
-                            onChange={(e) => setNic(e.target.value)}
+                            type="text"
+                            placeholder="UID (e.g. Aadhaar number)"
+                            value={uid}
+                            pattern="\d{12}"
+                            maxLength={12}
+                            onChange={(e) => setUid(e.target.value)}
                         />
+                    </div>
+
+                    <div>
+                        <label>Date of Birth</label>
                         <input
-                            type={"date"}
+                            type='date'
                             placeholder="Date of Birth"
+                            max={new Date().toISOString().split("T")[0]}
                             value={dob}
                             onChange={(e) => setDob(e.target.value)}
                         />
                     </div>
+                </div>
+
+                <div className='appointment__form__input'>
                     <div>
-                        <select value={gender} onChange={(e) => setGender(e.target.value)}>
-                            <option value="">Select Gender</option>
+                        <label>Gender</label>
+                        <select
+                            value={gender}
+                            onChange={(e) => setGender(e.target.value)}
+                        >
+                            <option value="" disabled>Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
+                            <option value="Transgender">Transgender</option>
                         </select>
-                        <input type="date" placeholder='Appointment Date' value={appointmentDate} onChange={(e) => setAppointmentDate(e.target.value)} />
                     </div>
-                    <div>
-                        <select value={department} onChange={(e) => {
-                            setDepartment(e.target.value);
-                            setDoctorFirstName("");
-                            setDoctorLastName("");
 
-                        }}>{
-                                departmentsArray.map((depart, idx) => {
-                                    return (
-                                        <option value={depart} key={idx}>{depart}</option>
-                                    )
-                                })
-                            }</select>
-                        <select value={`${doctorFirstName} ${doctorLastName}`} onChange={(e) => {
-                            const [firstName, lastName] = e.target.value.split(" ")
-                            setDoctorFirstName(firstName);
-                            setDoctorLastName(lastName);
-                        }} disabled={!department}>
-                            <option value="">Select Doctor</option>
+                    <div>
+                        <label>Appointment Date</label>
+                        <input
+                            type="date"
+                            placeholder='Appointment Date'
+                            value={appointmentDate}
+                            min={new Date().toISOString().split("T")[0]}
+                            onChange={(e) => setAppointmentDate(e.target.value)}
+                        />
+                    </div>
+                </div>
+
+                <div className='appointment__form__input'>
+                    <div>
+                        <label>Select Department</label>
+                        <select
+                            value={department}
+                            onChange={(e) => setDepartment(e.target.value)}
+                        >
+                            <option value="" disabled>Select Department</option>
+                            {DOCTOR_DEPARTMENT.map((depart, idx) => (
+                                <option key={idx} value={depart}>{depart}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>Select Doctor</label>
+                        <select
+                            value={doctor}
+                            onChange={(e) => setDoctor(e.target.value)}
+                            disabled={!department}
+                        >
+                            <option value="" disabled>Select Doctor</option>
                             {
-                                doctors.filter((doctor) => doctor.doctorDepartment === department).map((doctor, idx) => {
-                                    return (
-                                        <option value={`${doctor.firstName} ${doctor.lastName}`} key={idx}>{doctor.firstName} {doctor.lastName}</option>
-                                    )
-                                })
+                                doctors
+                                    .filter((doctor) => doctor.doctorDepartment === department)
+                                    .map((doctor, idx) => (
+                                        <option key={doctor._id} value={doctor._id}>{doctor.firstName} {doctor.lastName}</option>
+                                    ))
                             }
                         </select>
                     </div>
-                    <textarea rows="7" value={address} placeholder='Address' onChange={(e) => setAddress(e.target.value)} />
-                    <div
-                        style={{
-                            gap: "10px",
-                            justifyContent: "flex-end",
-                            flexDirection: "row",
-                        }}
-                    >
-                        <p style={{ marginBottom: 0 }}>Have you visited before ?</p>
+                </div>
+
+                <div className='appointment__form__text'>
+                    <label>Address</label>
+                    <textarea
+                        placeholder='Address'
+                        rows="5"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                    />
+                </div>
+
+                <div className='appointment__form__checkbox' >
+                    <label>
                         <input
                             type="checkbox"
                             checked={hasVisited}
                             onChange={(e) => setHasVisited(e.target.checked)}
-                            style={{ flex: "none", width: "25px" }}
                         />
-                    </div>
-                    <div style={{ justifyContent: "center", alignItems: "center" }}>
-                        <button style={{ margin: "0 auto" }}>GET APPOINTMENT</button>
-                    </div>
-                </form >
-            </div >
-        </>
+                        Have you visited before?
+                    </label>
+                </div>
+
+                <div className='appointment__form__btn'>
+                    <button>GET APPOINTMENT</button>
+                </div>
+
+            </form >
+
+        </div>
     )
 }
 
-export default AppointmentForm
+export default AppointmentForm;
