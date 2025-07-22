@@ -81,10 +81,6 @@ const userSchema = new mongoose.Schema({
     docAvatar: {
         type: String,
     },
-
-    medicalHistory: {
-        type: String
-    },
 });
 
 userSchema.pre("save", async function (next) {

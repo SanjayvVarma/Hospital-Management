@@ -7,7 +7,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { generateToken } from "../middlewares/auth.middleware.js";
 
 const registerPatient = catchAsync(async (req, res) => {
-    const { firstName, lastName, email, phone, password, gender, dob, uid, address, medicalHistory } = req.body;
+    const { firstName, lastName, email, phone, password, gender, dob, uid, address } = req.body;
 
     if (!firstName || !lastName || !email || !phone || !password || !gender || !dob || !uid || !address) {
         throw new ApiError(400, "Please fill out the entire form!");
@@ -31,7 +31,6 @@ const registerPatient = catchAsync(async (req, res) => {
         dob,
         uid,
         address,
-        medicalHistory,
         role: "Patient"
     });
 
