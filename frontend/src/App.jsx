@@ -9,8 +9,10 @@ import { ToastContainer } from 'react-toastify';
 import Navbar from './components/navbar/Navbar';
 import Register from './pages/register/Register';
 import { Routes, Route } from "react-router-dom";
-import Footer from './components/footer/Footer.jsx';
+import Footer from './components/footer/Footer';
+import Dashboard from './pages/dashboard/Dashboard';
 import Appointment from './pages/appointment/Appointment';
+import ForgotPassword from './pages/forgotPassword/ForgotPassword';
 import { AuthContext, UserContext } from './contexts/AppContexts.js';
 
 function App() {
@@ -40,7 +42,7 @@ function App() {
   }, [isAuth])
 
   return (
-    <>
+    <div>
       <Navbar />
       <Routes>
         <Route index path='/' element={<Home />} />
@@ -48,10 +50,12 @@ function App() {
         {/* <Route index path='/about' element={<About />} />
         <Route index path='/register' element={<Register />} /> */}
         <Route index path='/login' element={<Login />} />
+        <Route index path='/forgot' element={<ForgotPassword />} />
+        <Route index path='/dashboard' element={<Dashboard />} />
       </Routes>
       <Footer />
       <ToastContainer position="top-center" />
-    </>
+    </div>
 
   )
 }
