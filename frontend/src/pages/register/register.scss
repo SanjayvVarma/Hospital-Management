@@ -1,0 +1,126 @@
+.registrationPage {
+    min-height: 100vh;
+    background-color: #fdf6ed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+
+    h2 {
+        font-size: 2.6rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        margin-bottom: 1rem;
+    }
+
+    &__form {
+        background-color: #ffffff;
+        border-radius: 1rem;
+        padding: 2rem;
+        max-width: 890px;
+        width: 100%;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        &__input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+
+            >div {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+
+                label {
+                    font-weight: 600;
+                    margin-bottom: 0.4rem;
+                    color: #34495e;
+                }
+
+                input,
+                select {
+                    padding: 0.75rem 1rem;
+                    border: 1px solid #b6b3b3;
+                    border-radius: 0.6rem;
+                    font-size: 1rem;
+                    background-color: #eeebeb;
+                    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+                    &:focus {
+                        border-color: #0ec4c4;
+                        box-shadow: 0 0 0 3px rgba(76, 124, 125, 0.15);
+                        outline: none;
+                    }
+                }
+            }
+
+            &__error {
+                flex-basis: 100%;
+                color: #ff002f;
+                font-size: 15px;
+                display: flex;
+                align-items: center;
+
+            }
+        }
+
+        &__btn {
+            display: flex;
+            justify-content: center;
+
+            button {
+                background-color: #20d50f;
+                color: #fff;
+                font-size: 1rem;
+                padding: 10px 30px;
+                border: none;
+                border-radius: 0.7rem;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #279e35;
+                }
+
+                &:disabled {
+                    background-color: #aaa;
+                    cursor: not-allowed;
+                }
+            }
+        }
+
+        &__already {
+            text-align: center;
+            font-size: 0.95rem;
+
+            p {
+                margin: 0;
+                color: #666;
+            }
+
+            a {
+                color: #0509fe;
+                font-weight: bold;
+                text-decoration: none;
+                margin-left: 0.3rem;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+
+@media (max-width: 768px) {
+    .registrationPage__form__input {
+        flex-direction: column;
+    }
+}
