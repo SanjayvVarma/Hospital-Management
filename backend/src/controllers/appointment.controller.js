@@ -80,7 +80,7 @@ const updateAppointmentStatus = catchAsync(async (req, res) => {
     const { status, rejectionReason } = req.body;
     const user = req.user;
 
-    if (!["Accepted", "Rejected"].includes(status)) {
+    if (!["Accepted", "Rejected", "Completed"].includes(status)) {
         throw new ApiError(400, "Invalid status value");
     }
 
