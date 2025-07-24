@@ -51,7 +51,7 @@ const getPatientAppointments = catchAsync(async (req, res) => {
     const patientId = req.user._id;
 
     const appointments = await Appointment.find({ patient: patientId })
-        .populate("doctor", "firstName doctorDepartment")
+        .populate("doctor", "firstName lastName doctorDepartment")
         .sort({ appointmentDate: -1 });
 
     if (!appointments.length) {

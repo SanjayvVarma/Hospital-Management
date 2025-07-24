@@ -1,0 +1,64 @@
+.appointmentPage {
+  padding: 2rem;
+  background-color: #f9f9f9;
+
+  &__table {
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      min-width: 800px;
+
+      thead {
+        background-color: #1e272e;
+
+        th {
+          padding: 1rem;
+          color: #fff;
+          text-align: left;
+          font-weight: 600;
+          font-size: 1rem;
+          white-space: nowrap;
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #e0e0e0;
+
+          &:nth-child(even) {
+            background-color: #f7f9fc;
+          }
+
+          &:hover {
+            background-color: #ecf0f1;
+          }
+
+          td {
+            padding: 0.9rem 1rem;
+            font-size: 0.95rem;
+            color: #333;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive for mobile
+  @media (max-width: 768px) {
+    padding: 1rem;
+
+    &__table {
+      table {
+        font-size: 0.85rem;
+        min-width: 700px;
+      }
+    }
+  }
+}
