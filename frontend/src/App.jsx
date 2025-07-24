@@ -13,11 +13,12 @@ import Footer from './components/footer/Footer';
 import Dashboard from './pages/dashboard/Dashboard';
 import Appointment from './pages/appointment/Appointment';
 import ForgotPassword from './pages/forgotPassword/ForgotPassword';
+import UpdateProfile from './pages/updateProfile/UpdateProfile.jsx';
 import { AuthContext, UserContext } from './contexts/AppContexts.js';
 
 function App() {
 
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const { isAuth, setIsAuth } = useContext(AuthContext);
 
   useEffect(() => {
@@ -46,12 +47,13 @@ function App() {
       <Navbar />
       <Routes>
         <Route index path='/' element={<Home />} />
-        <Route index path='/appointment' element={<Appointment />} />
-        <Route index path='/about' element={<About />} />
-        <Route index path='/register' element={<Register />} />
-        <Route index path='/login' element={<Login />} />
-        <Route index path='/forgot' element={<ForgotPassword />} />
-        <Route index path='/dashboard' element={<Dashboard />} />
+        <Route path='/appointment' element={<Appointment />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/forgot' element={<ForgotPassword />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/update-profile' element={<UpdateProfile />} />
       </Routes>
       <Footer />
       <ToastContainer position="top-center" />
