@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
-import { BrowserRouter as Router } from "react-router-dom";
-import DashboardProvider from "./contexts/DashboardProvider";
 import './index.css';
+import React from 'react';
+import App from './App.jsx';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from "react-router-dom";
+import AuthProvider from './contexts/AuthProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <DashboardProvider>
-      <Router>
+    <AuthProvider>
+      <BrowserRouter>
         <App />
-      </Router>
-    </DashboardProvider>
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>,
 )
