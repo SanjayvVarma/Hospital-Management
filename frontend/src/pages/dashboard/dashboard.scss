@@ -1,0 +1,42 @@
+.dashboard {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f1f5f9;
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+
+    &__sidebar {
+      width: 260px;
+      background-color: #0f172a;
+      color: white;
+      padding: 2rem 1rem;
+    }
+
+    &__components {
+      flex: 1;
+      padding: 2rem;
+      background-color: #ffffff;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+
+      &__sidebar {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 0.5rem;
+      }
+
+      &__components {
+        padding: 1rem;
+      }
+    }
+  }
+}
