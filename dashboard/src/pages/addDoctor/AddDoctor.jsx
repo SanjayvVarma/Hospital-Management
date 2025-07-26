@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from 'react-toastify';
-import DashboardContext from '../../contexts/DashboardContext';
+import AuthContext from '../../contexts/AuthContext';
 
-const AddNewDoctor = () => {
+const AddDoctor = () => {
 
-  const { isAuthenticated, setIsAuthenticated } = useContext(DashboardContext);
+  const { isAuth, setIsAuth } = useContext(AuthContext);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -179,5 +179,4 @@ const AddNewDoctor = () => {
   )
 }
 
-export default AddNewDoctor;
-
+export default AddDoctor;

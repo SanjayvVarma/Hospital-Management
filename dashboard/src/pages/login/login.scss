@@ -1,0 +1,123 @@
+.loginPage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(to right, #c2c8c9, #c5d7ea);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    &__logo {
+        text-align: center;
+        margin-bottom: 1rem;
+
+        img {
+            width: 240px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #0b3d91;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: #555;
+            font-size: 1rem;
+        }
+    }
+
+    &__form {
+        background-color: #ebe7e7;
+        width: 100%;
+        max-width: 600px;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+
+        &__input,
+        &__role {
+            margin-bottom: 1.5rem;
+
+            label {
+                display: block;
+                margin-bottom: 0.5rem;
+                color: #0b3d91;
+                font-weight: 600;
+            }
+
+            input,
+            select {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                border: 1px solid #a09b9b;
+                border-radius: 8px;
+                font-size: 1rem;
+                transition: border-color 0.3s;
+                background-color: #f3ecec;
+
+                &:focus {
+                    border-color: #0f56d1;
+                    outline: none;
+                }
+            }
+
+            div {
+                position: relative;
+
+                input {
+                    padding-right: 40px;
+                }
+
+                button {
+                    position: absolute;
+                    top: 50%;
+                    right: 10px;
+                    transform: translateY(-50%);
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: #0658e5;
+                }
+            }
+        }
+
+        &__btn {
+            button {
+                width: 100%;
+                padding: 0.75rem;
+                background-color: #0b3d91;
+                color: #fff;
+                font-size: 1rem;
+                border: none;
+                border-radius: 8px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: background-color 0.3s;
+
+                &:hover {
+                    background-color: #093176;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 500px) {
+        padding: 1rem;
+
+        &__form {
+            padding: 1.5rem;
+        }
+
+        &__logo {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 0.85rem;
+            }
+        }
+    }
+}

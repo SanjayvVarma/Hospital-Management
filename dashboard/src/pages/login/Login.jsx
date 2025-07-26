@@ -1,76 +1,116 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
-import CircleLoader from "react-spinners/ClipLoader";
+import './login.scss';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import DashboardContext from '../../contexts/DashboardContext.js';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Loader from '../../components/loader/Loader';
+import AuthContext from '../../contexts/AuthContext.js';
 
 const Login = () => {
 
-  const { isAuthenticated, setIsAuthenticated, setUser } = useContext(DashboardContext);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigateTo = useNavigate();
+  const [role, setRole] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const { isAuth, setIsAuth, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
+
     try {
-      const res = await axios.post("https://hospital-management-skck.onrender.com/api/v1/user/login", { email, password, confirmPassword, role: "Admin" }, {
-        withCredentials: true,
-        headers: { "Content-Type": "application/json" }
-      })
-      toast.success(res.data.message)
-      setUser(res.data.user)
-      setIsAuthenticated(true)
-      navigateTo("/")
+      const loginPayload = { password, role };
+
+      if (username.includes("@")) {
+        loginPayload.email = username
+      } else {
+        loginPayload.phone = username
+      }
+
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/login`,
+        loginPayload,
+        { withCredentials: true, headers: { "Content-Type": "application/json" } }
+      );
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Logged In");
+        setUser(res.data.data);
+        setIsAuth(true);
+        navigate("/");
+      }
 
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error?.response?.data?.message || "Login Failed");
+    } finally {
+      setIsLoading(false);
     }
-    setLoading(false)
-  }
+  };
 
-  if (isAuthenticated) {
-    return <Navigate to={"/"} />
-  }
+  if (isAuth) {
+    navigate("/")
+  };
 
   return (
-    <>
-      {
-        loading ? <CircleLoader color="#ffffff" size={180} /> :
-          <section className="container form-component">
-            <img src="/logo.png" alt="logo" className="logo" />
-            <h1 className="form-title">WELCOME TO ZEECARE</h1>
-            <p>Only Admins Are Allowed To Access These Resources!</p>
-            <form onSubmit={handleLogin}>
-              <input
-                type="text"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              <div style={{ justifyContent: "center", alignItems: "center" }}>
-                <button type="submit">Login</button>
-              </div>
-            </form>
-          </section>
-      }
-    </>
+    <div className='loginPage'>
+      {isLoading && <Loader text="Logging In" message="Please wait while we verify your credentials..." />}
+
+      <div className='loginPage__logo'>
+        <img src="/logo.png" alt="logo" />
+        <h1>WELCOME TO SKCARE</h1>
+        <p>Doctors And Admins Are Allowed To Access These Resources!</p>
+      </div>
+
+      <form onSubmit={handleLogin} className='loginPage__form'>
+        <div className='loginPage__form__input'>
+          <label>Email Or Phone</label>
+          <input
+            type="text"
+            placeholder="Email Or Phone"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+
+        <div className='loginPage__form__input'>
+          <label>Password</label>
+          <div>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+              type='button'
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
+            </button>
+          </div>
+        </div>
+
+        <div className='loginPage__form__role'>
+          <label>Select Role</label>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value="" disabled>Select Role</option>
+            <option value="Admin">Admin</option>
+            <option value="Doctor">Doctor</option>
+          </select>
+        </div>
+
+        <div className='loginPage__form__btn'>
+          <button type="submit">Login</button>
+        </div>
+      </form>
+
+    </div>
   )
 }
 

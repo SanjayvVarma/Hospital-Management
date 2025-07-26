@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Navigate, useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
 import axios from "axios";
+import { toast } from 'react-toastify';
 import { RiDeleteBinLine } from "react-icons/ri";
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { GoCheckCircleFill } from 'react-icons/go';
-import DashboardContext from '../../contexts/DashboardContext';
+import AuthContext from '../../contexts/AuthContext';
+import { useContext, useEffect, useState } from 'react';
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
 
-  const { isAuthenticated, user, setIsAuthenticated } = useContext(DashboardContext);
+  const { isAuth, user, setIsAuth } = useContext(AuthContext);
   const [appointments, setAppointments] = useState([]);
   const [doctorsRegistered, setDoctorsRegistered] = useState([]);
   const navigateTo = useNavigate();
@@ -71,9 +71,9 @@ const Dashboard = () => {
     }
   };
 
-  if (!isAuthenticated) {
-    return <Navigate to={"/login"} />
-  };
+  if (!isAuth) {
+    navigateTo("/login")
+  }
 
   return (
     <>

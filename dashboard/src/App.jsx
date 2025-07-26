@@ -1,48 +1,57 @@
-import React, { useContext, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios";
-import Dashboard from "./pages/dashboard/Dashboard";
-import Login from "./pages/login/Login";
-import AddNewDoctor from "./pages/addNewDoctor/AddNewDoctor";
-import AddNewAdmin from "./pages/addNewAdmin/AddNewAdmin";
-import Message from "./pages/message/Message";
-import Doctors from "./pages/doctors/Doctors";
-import SideBar from "./pages/sideBar/SideBar";
-import DashboardContext from "./contexts/DashboardContext.js";
 import "./App.css";
+import axios from "axios";
+import Login from "./pages/login/Login";
+import { useContext, useEffect } from "react";
+import Message from "./pages/message/Message";
+import Sidebar from "./pages/sidebar/Sidebar";
+import Doctors from "./pages/doctors/Doctors";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import { Routes, Route } from "react-router-dom";
+import AddAdmin from "./pages/addAdmin/AddAdmin";
+import Dashboard from "./pages/dashboard/Dashboard";
+import AddDoctor from "./pages/addDoctor/AddDoctor";
+import AuthContext from "./contexts/AuthContext.js";
 
 const App = () => {
 
-  const { isAuthenticated, setIsAuthenticated, setUser } = useContext(DashboardContext);
+  const { isAuth, setIsAuth, setUser } = useContext(AuthContext);
+
   useEffect(() => {
+
     const fetchUser = async () => {
       try {
-        const response = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/admin/me", { withCredentials: true });
-        setIsAuthenticated(true);
-        setUser(response.data.user);
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/current-user`,
+          { withCredentials: true }
+        );
+
+        if (res.data.success) {
+          setIsAuth(true);
+          setUser(res.data.data);
+        }
+
       } catch (error) {
-        setIsAuthenticated(false);
+        setIsAuth(false);
         setUser({});
       }
     };
+
     fetchUser();
-  }, [isAuthenticated]);
+  }, [isAuth]);
 
   return (
-    <>
-      <SideBar />
+    <div>
+      <Sidebar />
       <Routes>
         <Route index path="/" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/doctor/addnew" element={<AddNewDoctor />} />
-        <Route path="/admin/addnew" element={<AddNewAdmin />} />
+        {/* <Route path="/add-doctor" element={<AddDoctor />} />
+        <Route path="/add-admin" element={<AddAdmin />} />
         <Route path="/messages" element={<Message />} />
-        <Route path="/doctors" element={<Doctors />} />
+        <Route path="/doctors" element={<Doctors />} /> */}
       </Routes>
       <ToastContainer position="top-center" />
-    </>
+    </div>
   );
 };
 

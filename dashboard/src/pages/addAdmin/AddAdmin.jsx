@@ -2,11 +2,11 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {toast} from 'react-toastify';
-import DashboardContext from '../../contexts/DashboardContext';
+import AuthContext from '../../contexts/AuthContext';
 
-const AddNewAdmin = () => {
+const AddAdmin = () => {
 
-  const { isAuthenticated} = useContext(DashboardContext);
+  const { isAuth} = useContext(AuthContext);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -108,4 +108,4 @@ const AddNewAdmin = () => {
   )
 }
 
-export default AddNewAdmin
+export default AddAdmin;

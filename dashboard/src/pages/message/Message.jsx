@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { RiDeleteBinLine } from "react-icons/ri";
 import { toast } from "react-toastify";
 import axios from "axios";
-import DashboardContext from '../../contexts/DashboardContext';
+import AuthContext from '../../contexts/AuthContext';
 
 const Message = () => {
   const [messages, setMessages] = useState([]);
-  const { isAuthenticated } = useContext(DashboardContext);
+  const { isAuth } = useContext(AuthContext);
   const navigateTo = useNavigate();
 
   useEffect(() => {

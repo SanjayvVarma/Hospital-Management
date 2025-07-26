@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import DashboardContext from '../../contexts/DashboardContext';
+import AuthContext from '../../contexts/AuthContext';
 
 const Doctors = () => {
 
   const [doctors, setDoctors] = useState([]);
-  const { isAuthenticated } = useContext(DashboardContext);
+  const { isAuth } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchDoctors = async () => {

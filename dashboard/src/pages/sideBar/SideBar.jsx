@@ -1,23 +1,23 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { TiHome } from 'react-icons/ti';
-import { FaUserDoctor } from 'react-icons/fa6';
+import { useContext, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { FaBars, FaHome, FaTimes } from 'react-icons/fa';
 import { MdAddModerator } from 'react-icons/md';
 import { IoPersonAddSharp } from 'react-icons/io5';
 import { AiFillMessage } from 'react-icons/ai';
 import { RiLogoutBoxFill } from 'react-icons/ri';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import DashboardContext from '../../contexts/DashboardContext.js';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import AuthContext from '../../contexts/AuthContext';
+import Login from '../login/Login';
 
 
-const SideBar = () => {
+const Sidebar = () => {
 
   const [show, setShow] = useState(false);
-  const { isAuthenticated, setIsAuthenticated, } = useContext(DashboardContext)
+  const { isAuth, setIsAuth } = useContext(AuthContext)
 
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
   const gotoHomePage = () => {
     navigateTo("/");
@@ -51,7 +51,7 @@ const SideBar = () => {
       })
       .then((res) => {
         toast.success(res.data.message);
-        setIsAuthenticated(false);
+        setIsAuth(false);
 
       })
       .catch((err) => {
@@ -59,31 +59,21 @@ const SideBar = () => {
       });
   };
 
-
-
   return (
-    <>
-      <nav
-        style={!isAuthenticated ? { display: "none" } : { display: "flex" }}
-        className={show ? "show sidebar" : "sidebar"}
-      >
-        <div className="links">
-          <TiHome onClick={gotoHomePage} />
-          <FaUserDoctor onClick={gotoDoctorsPage} />
-          <MdAddModerator onClick={gotoAddNewAdmin} />
-          <IoPersonAddSharp onClick={gotoAddNewDoctor} />
-          <AiFillMessage onClick={gotoMessagesPage} />
-          <RiLogoutBoxFill onClick={handleLogout} />
+    <div>
+      {isAuth && (
+        <div className={show ? "container__navLinks container__showmenu" : "container__navLinks"}>
+          <div>
+            <NavLink><FaHome /> <span>Home</span></NavLink>
+            {/* <NavLink> <FaUserDoctor /> <span>Add Doctor</span></NavLink> */}
+          </div>
+          <div>
+            {show ? <FaTimes /> : <FaBars />}
+          </div>
         </div>
-      </nav>
-      <div
-        className="wrapper"
-        style={!isAuthenticated ? { display: "none" } : { display: "flex" }}
-      >
-        <GiHamburgerMenu className="hamburger" onClick={() => setShow(!show)} />
-      </div>
-    </>
+      )}
+    </div>
   )
 }
 
-export default SideBar;
+export default Sidebar;
