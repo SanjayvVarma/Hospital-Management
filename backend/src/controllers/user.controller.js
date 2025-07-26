@@ -238,5 +238,4 @@ const getDepartmentPatients = catchAsync(async (req, res) => {
     );
 });
 
-
 export { registerPatient, userLogin, addNewAdmin, getAllPatient, logoutUser, addNewDoctor, getAllDoctors, getCurrentUser, getDepartmentPatients };
