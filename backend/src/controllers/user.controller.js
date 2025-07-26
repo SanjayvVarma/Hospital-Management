@@ -81,7 +81,7 @@ const userLogin = catchAsync(async (req, res) => {
         .status(200)
         .cookie("accessToken", accessToken, options)
         .json(
-            new ApiResponse(200, loggedInUser, true, "User LoggedIn Successfully")
+            new ApiResponse(200, loggedInUser, true, `${user.role} LoggedIn Successfully`)
         )
 });
 
