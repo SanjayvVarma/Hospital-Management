@@ -3,7 +3,6 @@ import axios from "axios";
 import Login from "./pages/login/Login";
 import { useContext, useEffect } from "react";
 import Message from "./pages/message/Message";
-import Sidebar from "./pages/sidebar/Sidebar";
 import Doctors from "./pages/doctors/Doctors";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
@@ -12,6 +11,8 @@ import AddAdmin from "./pages/addAdmin/AddAdmin";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AddDoctor from "./pages/addDoctor/AddDoctor";
 import AuthContext from "./contexts/AuthContext.js";
+import Navbar from "./components/navbar/Navbar.jsx";
+import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
 
 const App = () => {
 
@@ -41,15 +42,18 @@ const App = () => {
 
   return (
     <div>
-      <Sidebar />
-      <Routes>
-        <Route index path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        {/* <Route path="/add-doctor" element={<AddDoctor />} />
-        <Route path="/add-admin" element={<AddAdmin />} />
-        <Route path="/messages" element={<Message />} />
-        <Route path="/doctors" element={<Doctors />} /> */}
-      </Routes>
+      {isAuth && <Navbar />}
+      <div>
+        <Routes>
+          <Route index path="/" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/add-doctor" element={<AddDoctor />} />
+          {/* <Route path="/add-admin" element={<AddAdmin />} /> */}
+          {/* <Route path="/messages" element={<Message />} /> */}
+          {/* <Route path="/doctors" element={<Doctors />} /> */}
+          <Route path="/change-password" element={<ChangePassword />} />
+        </Routes>
+      </div>
       <ToastContainer position="top-center" />
     </div>
   );
