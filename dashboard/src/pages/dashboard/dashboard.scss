@@ -1,0 +1,107 @@
+.dashboardPage {
+  padding: 2rem;
+  min-height: 81vh;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+
+  &__welcome {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 2rem;
+    border-radius: 1rem;
+    background: linear-gradient(145deg, #293e63, #3c5c8c);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    color: #e0f2ff;
+
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #60a5fa;
+    }
+
+    &__name {
+      flex: 1;
+
+      p {
+        font-size: 1.3rem;
+        color: #93c5fd;
+        margin-bottom: 0.3rem;
+      }
+
+      h5 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #bfdbfe;
+        margin: 0;
+      }
+
+      >p:last-child {
+        margin-top: 0.5rem;
+        font-size: 0.95rem;
+        color: #dbeafe;
+        line-height: 1.5;
+      }
+    }
+  }
+
+  &__details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+
+    &__appointment,
+    &__doctors,
+    &__patients,
+    &__messages {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      color: #e0f2fe;
+      text-decoration: none;
+
+      &:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      p {
+        font-size: 1.05rem;
+        font-weight: 500;
+        color: #60a5fa;
+        margin-bottom: 0.4rem;
+      }
+
+      h3 {
+        font-size: 2rem;
+        color: #93c5fd;
+        margin: 0;
+        font-weight: 700;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    &__welcome {
+      flex-direction: column;
+      text-align: center;
+
+      &__name {
+        align-items: center;
+      }
+    }
+
+    &__details {
+      grid-template-columns: 1fr;
+    }
+  }
+}
