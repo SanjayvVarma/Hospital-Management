@@ -47,6 +47,7 @@ const Appointments = () => {
               <th>Doctor Name</th>
               <th>Department</th>
               <th>Status</th>
+              <th>Remark</th>
             </tr>
           </thead>
           <tbody>
@@ -59,6 +60,7 @@ const Appointments = () => {
                 <td>{item.doctor.firstName} {item.doctor.lastName}</td>
                 <td>{item.department}</td>
                 <td>{item.status}</td>
+                <td>{item.rejectionReason}</td>
               </tr>
             ))}
           </tbody>
