@@ -1,0 +1,148 @@
+.docAddPage {
+    max-width: 1200px;
+    margin: auto;
+    background-color: #1559be;
+
+    h1 {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #ffffff;
+    }
+
+    &__form {
+        background-color: #052b63;
+        border-radius: 1rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        &__avatar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            img {
+                width: 160px;
+                height: 160px;
+                object-fit: cover;
+                border-radius: 50%;
+                border: 4px solid #cce0ff;
+                margin-bottom: 1rem;
+                transition: transform 0.3s ease;
+            }
+
+            input[type="file"] {
+                font-size: 0.9rem;
+                padding: 0.4rem;
+                cursor: pointer;
+                background-color: #e8f0fe;
+                border: 1px solid #b6d4fe;
+                border-radius: 0.4rem;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #d0e2fd;
+                }
+            }
+        }
+
+        &__details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+            }
+
+            &__input {
+                display: flex;
+                flex-direction: column;
+
+                label {
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                    color: #ffffff;
+                }
+
+                input,
+                select {
+                    padding: 0.75rem 1rem;
+                    border: 1px solid #cbd5e1;
+                    border-radius: 0.5rem;
+                    font-size: 1rem;
+                    background-color: #f8fafc;
+                    color: #1e293b;
+                    transition: border 0.3s ease, box-shadow 0.3s ease;
+
+                    &:focus {
+                        border-color: #3b82f6;
+                        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+                        outline: none;
+                    }
+                }
+
+                &__error {
+                    color: red;
+                    padding-top: 0.5rem;
+                }
+
+                div {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+
+                    input {
+                        flex: 1;
+                        padding-right: 2.5rem;
+                    }
+
+                    button {
+                        position: absolute;
+                        right: 10px;
+                        background: transparent;
+                        border: none;
+                        cursor: pointer;
+                        color: #475569;
+
+                        &:hover {
+                            color: #1d4ed8;
+                        }
+                    }
+                }
+            }
+
+            &__btn {
+                grid-column: span 2;
+                text-align: center;
+
+                @media (max-width: 768px) {
+                    grid-column: span 1;
+                }
+
+                button {
+                    padding: 0.9rem;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    background-color: #3b82f6;
+                    color: #ffffff;
+                    border-radius: 0.5rem;
+
+                    &:hover {
+                        background-color: #2563eb;
+                        transform: translateY(-2px);
+                    }
+
+                    &:disabled {
+                        background-color: #aaa;
+                        cursor: not-allowed;
+                    }
+                }
+            }
+        }
+    }
+}

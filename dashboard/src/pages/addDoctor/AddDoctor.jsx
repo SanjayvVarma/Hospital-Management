@@ -1,39 +1,33 @@
-import React, { useContext, useState } from 'react';
-import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./addDoctor.scss";
+import { useState } from 'react';
 import { toast } from 'react-toastify';
-import AuthContext from '../../contexts/AuthContext';
+import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Loader from "../../components/loader/Loader";
+import { DOCTOR_DEPARTMENT } from "../../utils/constants";
 
 const AddDoctor = () => {
-
-  const { isAuth, setIsAuth } = useContext(AuthContext);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [nic, setNic] = useState("");
+  const [uid, setUid] = useState("");
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
+  const [conPassword, setConPassword] = useState("");
   const [doctorDepartment, setDoctorDepartment] = useState("");
   const [docAvatar, setDocAvatar] = useState("");
   const [docAvatarPreview, setDocAvatarPreview] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConPassword, setShowConPassword] = useState(false);
 
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
-
-  const departmentsArray = [
-    "Pediatrics",
-    "Orthopedics",
-    "Cardiology",
-    "Neurology",
-    "Oncology",
-    "Radiology",
-    "Physical Therapy",
-    "Dermatology",
-    "ENT",
-  ];
+  const isValidForm = firstName && email && phone && uid && dob && gender && password && conPassword && password === conPassword
 
   const handleAvatar = (e) => {
     const file = e.target.files[0];
@@ -45,9 +39,10 @@ const AddDoctor = () => {
     };
   };
 
-
   const handleAddNewDoctor = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     try {
       const formData = new FormData();
       formData.append("firstName", firstName);
@@ -55,127 +50,199 @@ const AddDoctor = () => {
       formData.append("email", email);
       formData.append("phone", phone);
       formData.append("password", password);
-      formData.append("nic", nic);
+      formData.append("uid", uid);
       formData.append("dob", dob);
       formData.append("gender", gender);
       formData.append("doctorDepartment", doctorDepartment);
       formData.append("docAvatar", docAvatar);
-      await axios
-        .post("https://hospital-management-skck.onrender.com/api/v1/user/doctor/addnew", formData, {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((res) => {
-          toast.success(res.data.message);
-          setIsAuthenticated(true);
-          navigateTo("/");
-          setFirstName("");
-          setLastName("");
-          setEmail("");
-          setPhone("");
-          setNic("");
-          setDob("");
-          setGender("");
-          setPassword("");
-        });
+
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/addNew-doctor`,
+        formData,
+        { withCredentials: true, headers: { "Content-Type": "multipart/form-data" }, }
+      );
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+        navigate("/");
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPhone("");
+        setUid("");
+        setDob("");
+        setGender("");
+        setPassword("");
+        setDoctorDepartment("");
+        setDocAvatar();
+      }
+
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || "Doctor registered failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  if (!isAuthenticated) {
-    return navigateTo("/login");
-  }
-
-
   return (
-    <section className="page">
-      <section className="container add-doctor-form">
-        <img src="/logo.png" alt="logo" className="logo" />
-        <h1 className="form-title">REGISTER A NEW DOCTOR</h1>
-        <form onSubmit={handleAddNewDoctor}>
-          <div className="first-wrapper">
+    <div className="docAddPage">
+      {isLoading && <Loader text="Registering" message="please wait while we verify your details...." />}
+      <h1>REGISTER A NEW DOCTOR</h1>
+
+      <form className="docAddPage__form" onSubmit={handleAddNewDoctor}>
+        <div className="docAddPage__form__avatar">
+          <img
+            src={docAvatarPreview ? `${docAvatarPreview}` : "/docHolder.jpg"}
+            alt="Doctor Avatar"
+          />
+          <input type="file" accept="image/*" onChange={handleAvatar} />
+        </div>
+
+        <div className="docAddPage__form__details">
+
+          <div className="docAddPage__form__details__input">
+            <label>First Name</label>
+            <input
+              type="text"
+              placeholder="First Name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </div>
+
+          <div className="docAddPage__form__details__input">
+            <label>Last Name</label>
+            <input
+              type="text"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+
+          <div className="docAddPage__form__details__input">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="enter valid email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <div className="docAddPage__form__details__input">
+            <label>Mobile Number</label>
+            <input
+              type="tel"
+              placeholder="Mobile Number"
+              value={phone}
+              pattern="[0-9]{10}"
+              maxLength={10}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+
+          <div className="docAddPage__form__details__input">
+            <label>Aadhaar(UID)</label>
+            <input
+              type="text"
+              placeholder="UID (e.g. Aadhaar number)"
+              value={uid}
+              pattern="\d{12}"
+              maxLength={12}
+              onChange={(e) => setUid(e.target.value)}
+            />
+          </div>
+
+          <div className="docAddPage__form__details__input">
+            <label>DOB</label>
+            <input
+              type="date"
+              placeholder="Date of Birth"
+              max={new Date().toISOString().split("T")[0]}
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+            />
+          </div>
+
+          <div className="docAddPage__form__details__input">
+            <label>Select Gender</label>
+            <select
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <option value="" disabled>Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Transgender">Transgender</option>
+            </select>
+          </div>
+
+          <div className="docAddPage__form__details__input">
+            <label>Select Department</label>
+            <select
+              value={doctorDepartment}
+              onChange={(e) => setDoctorDepartment(e.target.value)}
+            >
+              <option value="" disabled>Select Department</option>
+              {
+                DOCTOR_DEPARTMENT.map((depart, i) => (
+                  <option key={i} value={depart}>{depart}</option>
+                ))
+              }
+            </select>
+          </div>
+
+          <div className="docAddPage__form__details__input">
+            <label>Password</label>
             <div>
-              <img
-                src={
-                  docAvatarPreview ? `${docAvatarPreview}` : "/docHolder.jpg"
-                }
-                alt="Doctor Avatar"
-              />
-              <input type="file" onChange={handleAvatar} />
-            </div>
-            <div>
               <input
-                type="text"
-                placeholder="First Name"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="Mobile Number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-              <input
-                type="number"
-                placeholder="NIC"
-                value={nic}
-                onChange={(e) => setNic(e.target.value)}
-              />
-              <input
-                type={"date"}
-                placeholder="Date of Birth"
-                value={dob}
-                onChange={(e) => setDob(e.target.value)}
-              />
-              <select
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-              <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <select
-                value={doctorDepartment}
-                onChange={(e) => {
-                  setDoctorDepartment(e.target.value);
-                }}
+              <button
+                type='button'
+                onClick={() => setShowPassword(!showPassword)}
               >
-                <option value="">Select Department</option>
-                {departmentsArray.map((depart, index) => {
-                  return (
-                    <option value={depart} key={index}>
-                      {depart}
-                    </option>
-                  );
-                })}
-              </select>
-              <button type="submit">Register New Doctor</button>
+                {showPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
+              </button>
             </div>
           </div>
-        </form>
-      </section>
-    </section>
+
+          <div className="docAddPage__form__details__input">
+            <label>Confirm Password</label>
+            <div>
+              <input
+                type={showConPassword ? "text" : "password"}
+                placeholder="Password"
+                value={conPassword}
+                onChange={(e) => setConPassword(e.target.value)}
+              />
+              <button
+                type='button'
+                onClick={() => setShowConPassword(!showConPassword)}
+              >
+                {showConPassword ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
+              </button>
+            </div>
+            {password !== conPassword && conPassword && (
+              <p className="docAddPage__form__details__input__error">Passwords do not match.</p>
+            )}
+          </div>
+
+          <div className="docAddPage__form__details__btn">
+            <button
+              type="submit"
+              disabled={!isValidForm}
+            >
+              Register New Doctor
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div>
   )
 }
 
