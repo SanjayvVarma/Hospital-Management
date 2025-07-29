@@ -1,11 +1,11 @@
 import './login.scss';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Loader from '../../components/loader/Loader';
 import AuthContext from '../../contexts/AuthContext.js';
+import { useContext, useEffect, useState } from 'react';
 
 const Login = () => {
 
@@ -50,9 +50,11 @@ const Login = () => {
     }
   };
 
-  if (isAuth) {
-    navigate("/")
-  };
+  useEffect(() => {
+    if (isAuth) {
+      navigate("/");
+    }
+  }, [isAuth, navigate]);
 
   return (
     <div className='loginPage'>
