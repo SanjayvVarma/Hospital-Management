@@ -106,8 +106,13 @@ const addNewAdmin = catchAsync(async (req, res) => {
         $or: [{ email }, { phone }, { uid }]
     });
 
+    let matchedField = '';
     if (isRegistered) {
-        throw new ApiError(400, `${isRegistered.role} with this email already exists`);
+        if (isRegistered.email === email) matchedField = 'email';
+        else if (isRegistered.phone === phone) matchedField = 'phone';
+        else if (isRegistered.uid === uid) matchedField = 'Aadhaar (uid)';
+
+        throw new ApiError(400, `${isRegistered.role} with this ${matchedField} already exists`);
     };
 
     const admin = await User.create({
@@ -122,7 +127,7 @@ const addNewAdmin = catchAsync(async (req, res) => {
         role: "Admin",
     });
 
-    return res.status(2001).json(
+    return res.status(201).json(
         new ApiResponse(201, admin, true, "New Admin Registered Successfully!")
     )
 });

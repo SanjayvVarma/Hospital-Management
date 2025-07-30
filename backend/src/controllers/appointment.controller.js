@@ -64,7 +64,8 @@ const getPatientAppointments = catchAsync(async (req, res) => {
 });
 
 const getAllAppointments = catchAsync(async (req, res) => {
-    const appointments = await Appointment.find();
+    const appointments = await Appointment.find()
+        .populate("doctor", "firstName lastName doctorDepartment");
 
     if (!appointments || appointments.length === 0) {
         throw new ApiError(404, "No appointments found");
