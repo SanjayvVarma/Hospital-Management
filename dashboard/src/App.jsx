@@ -6,13 +6,14 @@ import Message from "./pages/message/Message";
 import Doctors from "./pages/doctors/Doctors";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Navbar from "./components/navbar/Navbar";
 import { Routes, Route } from "react-router-dom";
 import AddAdmin from "./pages/addAdmin/AddAdmin";
+import AuthContext from "./contexts/AuthContext";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AddDoctor from "./pages/addDoctor/AddDoctor";
-import AuthContext from "./contexts/AuthContext.js";
-import Navbar from "./components/navbar/Navbar.jsx";
-import ChangePassword from "./pages/changePassword/ChangePassword.jsx";
+import Appointments from "./pages/appointments/Appointments";
+import ChangePassword from "./pages/changePassword/ChangePassword";
 
 const App = () => {
 
@@ -48,7 +49,8 @@ const App = () => {
           <Route index path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/add-doctor" element={<AddDoctor />} />
-          {/* <Route path="/add-admin" element={<AddAdmin />} /> */}
+          <Route path="/add-admin" element={<AddAdmin />} />
+          <Route path="/appointment" element={<Appointments />} />
           {/* <Route path="/messages" element={<Message />} /> */}
           {/* <Route path="/doctors" element={<Doctors />} /> */}
           <Route path="/change-password" element={<ChangePassword />} />

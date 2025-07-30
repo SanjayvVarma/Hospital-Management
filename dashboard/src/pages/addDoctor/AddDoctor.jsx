@@ -1,10 +1,11 @@
 import axios from "axios";
 import "./addDoctor.scss";
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Loader from "../../components/loader/Loader";
+import AuthContext from "../../contexts/AuthContext";
+import { useContext, useEffect, useState } from 'react';
 import { DOCTOR_DEPARTMENT } from "../../utils/constants";
 
 const AddDoctor = () => {
@@ -26,6 +27,7 @@ const AddDoctor = () => {
   const [showConPassword, setShowConPassword] = useState(false);
 
   const navigate = useNavigate();
+  const { isAuth } = useContext(AuthContext)
 
   const isValidForm = firstName && email && phone && uid && dob && gender && password && conPassword && password === conPassword
 
@@ -82,6 +84,12 @@ const AddDoctor = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login")
+    }
+  }, [isAuth, navigate]);
 
   return (
     <div className="docAddPage">

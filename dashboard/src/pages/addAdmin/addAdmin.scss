@@ -1,0 +1,115 @@
+.adminPage {
+    max-width: 1200px;
+    margin: 1rem auto;
+    padding: 2rem;
+    background: #13151bed;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    font-family: 'Inter', sans-serif;
+    color: #f3f4f6;
+
+    h1 {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        font-weight: 600;
+        color: #e5e7eb;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        &__row {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+
+            .adminPage__form__input {
+                flex: 1 1 48%;
+            }
+
+            @media (max-width: 600px) {
+                flex-direction: column;
+
+                .adminPage__form__input {
+                    flex: 1 1 100%;
+                }
+            }
+        }
+
+        &__input {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                font-size: 0.95rem;
+                color: #d1d5db;
+                margin-bottom: 0.5rem;
+                font-weight: 500;
+            }
+
+            input,
+            select {
+                padding: 0.75rem 1rem;
+                font-size: 1rem;
+                border: 1px solid #374151;
+                border-radius: 0.8rem;
+                background-color: #2c2f36;
+                color: #f9fafb;
+                transition: all 0.25s ease;
+
+                &::placeholder {
+                    color: #9ca3af;
+                }
+
+                &:focus {
+                    outline: none;
+                    border-color: #6366f1;
+                    background-color: #1f2937;
+                    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+                }
+            }
+
+            p {
+                color: #f87171;
+                font-size: 0.85rem;
+                margin-top: 0.3rem;
+            }
+        }
+
+        &__btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 1.5rem;
+
+            button {
+                background: blue;
+                color: #fff;
+                font-size: 1rem;
+                padding: 0.9rem 2.2rem;
+                border: none;
+                border-radius: 2rem;
+                cursor: pointer;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                transition: all 0.3s ease;
+
+                &:hover:not(:disabled) {
+                    transform: translateY(-2px);
+                    background: linear-gradient(to right, #4f46e5, #7c3aed);
+                }
+
+                &:disabled {
+                    background-color: #4d525a;
+                    cursor: not-allowed;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 500px) {
+        padding: 2rem;
+    }
+}

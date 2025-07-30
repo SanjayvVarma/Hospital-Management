@@ -4,15 +4,18 @@ import { toast } from 'react-toastify';
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from '../../contexts/AuthContext';
 import { useContext, useEffect, useState } from 'react';
+import useAppointments from "../../hooks/useAppointment";
+import Loader from "../../components/loader/Loader";
 
 const Dashboard = () => {
 
   const [doctors, setDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [appointments, setAppointments] = useState([]);
 
-  const { isAuth, user, setIsAuth } = useContext(AuthContext);
+  const { appointments, isLoading } = useAppointments();
+
+  const { isAuth, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const fetchDoctors = async () => {
@@ -45,21 +48,6 @@ const Dashboard = () => {
     }
   };
 
-  const fetchAppointments = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/appointment/all-appointment`,
-        { withCredentials: true }
-      );
-
-      if (res.data.success) {
-        setAppointments(res.data.data);
-      }
-
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Appointment fetch failed");
-    }
-  };
-
   const fetchMessages = async () => {
     try {
       const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/message/getall`,
@@ -76,11 +64,12 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchDoctors();
-    fetchPatients();
-    fetchMessages();
-    fetchAppointments();
-  }, []);
+    if (isAuth) {
+      fetchDoctors();
+      fetchPatients();
+      fetchMessages();
+    }
+  }, [isAuth]);
 
   useEffect(() => {
     if (!isAuth) {
@@ -90,6 +79,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboardPage">
+      {isLoading && <Loader />}
       <div className="dashboardPage__welcome">
         <img src={user.role === "Admin" ? "/admin.png" : "/doc.png"} alt="docImg" />
         <div className="dashboardPage__welcome__name">
@@ -126,7 +116,6 @@ const Dashboard = () => {
           <h3>{messages.length}</h3>
         </Link>
       </div>
-
     </div>
   )
 };
