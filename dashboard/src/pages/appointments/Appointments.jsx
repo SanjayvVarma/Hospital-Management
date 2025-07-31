@@ -9,6 +9,7 @@ import useAppointments from "../../hooks/useAppointment";
 const Appointments = () => {
 
     const [statusData, setStatusData] = useState({});
+    const [searchPatient, setSearchPatient] = useState("");
     const { appointments, isLoading, fetchAppointments } = useAppointments();
 
     const handleChange = (appointmentId, field, value) => {
@@ -55,14 +56,28 @@ const Appointments = () => {
         }
     };
 
+    const filterAppointment = appointments?.filter((item) =>
+        item.firstName.toLowerCase().includes(searchPatient.toLowerCase()) ||
+        item.phone.includes(searchPatient) ||
+        item.uid.includes(searchPatient)
+    );
+
     return (
         <div className="appointmentPage">
             {isLoading && <Loader text="Appointment fetching" message="please wait while fetch appointment....." />}
+            <div className="appointmentPage__search">
+                <input
+                    type="text"
+                    placeholder="search patient by name, mobile and Aadhaar"
+                    value={searchPatient}
+                    onChange={(e) => setSearchPatient(e.target.value)}
+                />
+            </div>
 
             <div className="appointmentPage__details">
-                {appointments.length === 0 && !isLoading && <p>No appointments found.</p>}
+                {filterAppointment.length === 0 && !isLoading && <p>No appointments found.</p>}
 
-                {appointments.map((item) => (
+                {filterAppointment.map((item) => (
                     <div key={item._id} className="appointmentPage__details__card">
                         <p>Patient Name :- <span>{item.firstName} {item.lastName}</span></p>
                         <p>Mobile Number :- <span>{item.phone}</span></p>
