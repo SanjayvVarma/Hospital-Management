@@ -1,72 +1,56 @@
-import React, { useContext, useEffect, useState } from 'react';
-import axios from "axios";
-import { Navigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import AuthContext from '../../contexts/AuthContext';
+import "./doctors.scss";
+import { useState } from 'react';
+import formatDate from '../../utils/date';
+import useDoctors from '../../hooks/useDoctors';
+import Loader from '../../components/loader/Loader';
 
 const Doctors = () => {
 
-  // const [doctors, setDoctors] = useState([]);
-  // const { isAuth } = useContext(AuthContext);
+  const [searchDoctor, setSearchDoctor] = useState("");
+  const { doctors, isloading } = useDoctors();
 
-  // useEffect(() => {
-  //   const fetchDoctors = async () => {
-  //     try {
-  //       const { data } = await axios.get("https://hospital-management-skck.onrender.com/api/v1/user/doctors", { withCredentials: true })
-  //       setDoctors(data.doctors)
-  //     } catch (error) {
-  //       toast.error(error.response.data.message);
-  //     }
-  //   }
-  //   fetchDoctors()
-  // }, [])
-
-  // if (!isAuthenticated) {
-  //   return <Navigate to={"/login"} />
-  // }
+  const filterDoctor = doctors?.filter((doctor) =>
+    doctor.firstName.toLowerCase().includes(searchDoctor.toLowerCase()) ||
+    doctor.doctorDepartment.toLowerCase().includes(searchDoctor.toLowerCase()) ||
+    doctor.phone.includes(searchDoctor)
+  );
 
   return (
-    // <section className="page doctors">
-    //   <h1>DOCTORS</h1>
-    //   <div className="banner">
-    //     {doctors && doctors.length > 0 ? (
-    //       doctors.map((element, idx) => {
-    //         return (
-    //           <div key={idx} className="card">
-    //             <img
-    //               src={element.docAvatar && element.docAvatar.url}
-    //               alt="Doctor avatar"
-    //             />
-    //             <h4>{`${element.firstName} ${element.lastName}`}</h4>
-    //             <div className="details">
-    //               <p>
-    //                 Email: <span>{element.email}</span>
-    //               </p>
-    //               <p>
-    //                 Phone: <span>{element.phone}</span>
-    //               </p>
-    //               <p>
-    //                 DOB: <span>{element.dob.substring(0, 10)}</span>
-    //               </p>
-    //               <p>
-    //                 Department: <span>{element.doctorDepartment}</span>
-    //               </p>
-    //               <p>
-    //                 NIC: <span>{element.nic}</span>
-    //               </p>
-    //               <p>
-    //                 Gender: <span>{element.gender}</span>
-    //               </p>
-    //             </div>
-    //           </div>
-    //         );
-    //       })
-    //     ) : (
-    //       <h1>No Registered Doctors Found!</h1>
-    //     )}
-    //   </div>
-    // </section>
-    <div>Sanjay</div>
+    <div className='doctorsPage'>
+      {isloading && <Loader />}
+      <div className='doctorsPage__search'>
+        <input
+          type="text"
+          placeholder='search doctors by name, department, mobile number'
+          value={searchDoctor}
+          onChange={(e) => setSearchDoctor(e.target.value)}
+        />
+      </div>
+
+      {filterDoctor.length > 0 ? (
+        <div className="doctorsPage__grid">
+          {filterDoctor.map((doctor) => (
+            <div key={doctor._id} className='doctorsPage__grid__card'>
+              <div className='doctorsPage__grid__card__image'>
+                <img src={doctor.docAvatar} alt={doctor.firstName} />
+              </div>
+              <div className='doctorsPage__grid__card__details'>
+                <p>Doctor Name :- <span>{doctor.firstName} {doctor.lastName}</span></p>
+                <p>Email :- <span>{doctor.email}</span></p>
+                <p>Mobile Number :- <span>{doctor.phone}</span></p>
+                <p>Aadhaar(UID) :- <span>{doctor.uid}</span></p>
+                <p>Gender :- <span>{doctor.gender}</span></p>
+                <p>DOB :- <span>{formatDate(doctor.dob)}</span></p>
+                <p>Department :- <span>{doctor.doctorDepartment}</span></p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="doctorsPage__empty">No Doctor Registered yet</p>
+      )}
+    </div>
   );
 };
+
 export default Doctors;

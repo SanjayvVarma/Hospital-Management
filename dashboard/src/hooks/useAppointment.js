@@ -26,7 +26,6 @@ const useAppointments = () => {
         }
     };
 
-
     useEffect(() => {
         if (isAuth) {
             fetchAppointments();

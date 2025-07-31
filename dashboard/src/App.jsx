@@ -52,7 +52,7 @@ const App = () => {
           <Route path="/add-admin" element={<AddAdmin />} />
           <Route path="/appointment" element={<Appointments />} />
           {/* <Route path="/messages" element={<Message />} /> */}
-          {/* <Route path="/doctors" element={<Doctors />} /> */}
+          <Route path="/doctors" element={<Doctors />} />
           <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
       </div>

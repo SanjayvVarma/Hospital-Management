@@ -1,37 +1,23 @@
 import axios from "axios";
 import "./dashboard.scss";
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from "react-router-dom";
+import useDoctors from "../../hooks/useDoctors";
+import Loader from "../../components/loader/Loader";
 import AuthContext from '../../contexts/AuthContext';
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from 'react';
 import useAppointments from "../../hooks/useAppointment";
-import Loader from "../../components/loader/Loader";
 
 const Dashboard = () => {
 
-  const [doctors, setDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
   const [messages, setMessages] = useState([]);
 
+  const { doctors } = useDoctors();
   const { appointments, isLoading } = useAppointments();
 
   const { isAuth, user } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const fetchDoctors = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-doctors`,
-        { withCredentials: true }
-      );
-
-      if (res.data.success) {
-        setDoctors(res.data.data);
-      }
-
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Doctor fetch failed");
-    }
-  };
 
   const fetchPatients = async () => {
     try {
@@ -65,7 +51,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (isAuth) {
-      fetchDoctors();
       fetchPatients();
       fetchMessages();
     }
