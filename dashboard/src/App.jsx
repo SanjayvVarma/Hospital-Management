@@ -10,6 +10,7 @@ import Navbar from "./components/navbar/Navbar";
 import { Routes, Route } from "react-router-dom";
 import AddAdmin from "./pages/addAdmin/AddAdmin";
 import AuthContext from "./contexts/AuthContext";
+import Patients from "./pages/patients/Patients";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AddDoctor from "./pages/addDoctor/AddDoctor";
 import Appointments from "./pages/appointments/Appointments";
@@ -51,8 +52,9 @@ const App = () => {
           <Route path="/add-doctor" element={<AddDoctor />} />
           <Route path="/add-admin" element={<AddAdmin />} />
           <Route path="/appointment" element={<Appointments />} />
-          {/* <Route path="/messages" element={<Message />} /> */}
+          <Route path="/message" element={<Message />} />
           <Route path="/doctors" element={<Doctors />} />
+          <Route path="/patients" element={<Patients />} />
           <Route path="/change-password" element={<ChangePassword />} />
         </Routes>
       </div>

@@ -1,65 +1,72 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { RiDeleteBinLine } from "react-icons/ri";
-import { toast } from "react-toastify";
+import "./message.scss";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { FaTrash } from "react-icons/fa";
+import formatDate from "../../utils/date";
+import { useNavigate } from 'react-router-dom';
+import useMessages from "../../hooks/useMessages";
+import Loader from "../../components/loader/Loader";
 import AuthContext from '../../contexts/AuthContext';
+import { useContext, useEffect, useState } from 'react';
 
 const Message = () => {
-  const [messages, setMessages] = useState([]);
+
+  const navigate = useNavigate();
   const { isAuth } = useContext(AuthContext);
-  const navigateTo = useNavigate();
+  const { messages, fetchMessages } = useMessages();
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const { data } = await axios.get("https://hospital-management-skck.onrender.com/api/v1/message/getall", { withCredentials: true });
-        setMessages(data.message);
-      } catch (error) {
-        console.log("ERROR OCCURED WHILE FETCHING MESSAGE", error);
-      }
-    };
+  const handleDelete = async (id) => {
+    setIsLoading(true);
 
-    if (!isAuthenticated) {
-      navigateTo("/login");
-    } else {
-      fetchMessages();
-    }
-  }, [isAuthenticated, navigateTo]);
-
-  const handleDeleteMessage = async (messageId) => {
     try {
-      const { data } = await axios.delete(`https://hospital-management-skck.onrender.com/api/v1/message/delete/${messageId}`, { withCredentials: true });
-      setMessages((prevMessages) => prevMessages.filter((message) => message._id !== messageId));
-      toast.success(data.message);
+      const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/v1/message/delete/${id}`,
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Message deleted successfully");
+        fetchMessages();
+      }
+
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || "message delete failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, [isAuth]);
+
   return (
-    <section className="page messages">
-      <h1>MESSAGE: ({messages.length})</h1>
-      <div className="banner">
-        {messages && messages.length > 0 ? (
-          messages.map((element) => {
-            return (
-              <div className="card" key={element._id}>
-                <div className="details">
-                  <p > First Name: <span>{element.firstName}</span> </p>
-                  <p> Last Name: <span>{element.lastName}</span> </p>
-                  <p>  Email: <span>{element.email}</span> </p>
-                  <p>  Phone: <span>{element.phone}</span> </p>
-                  <p>Message: <span>{element.message}</span> </p>
-                </div>
-                <button onClick={() => handleDeleteMessage(element._id)} className="delete-button">
-                  <RiDeleteBinLine />
-                </button>
-              </div>
-            );
-          })) : (<h1>No Messages!</h1>)}
-      </div>
-    </section>
+    <div className="messagePage">
+      {isLoading && <Loader text="Deleting" />}
+      {messages && messages.length > 0 ? (
+        messages.map((message) => (
+          <div key={message._id} className="messagePage__card">
+            <div className="messagePage__card__details">
+              <p>First Name :- <span>{message.firstName} {message.lastName}</span></p>
+              <p>Email :- <span>{message.email}</span></p>
+              <p>Phone :- <span>{message.phone}</span></p>
+              <p>Sent On :- <span>{formatDate(message.createdAt)}</span></p>
+              <p>Message :- <span>{message.message}</span></p>
+            </div>
+            <button
+              className="messagePage__card__btn"
+              onClick={() => handleDelete(message._id)}
+            >
+              <FaTrash />
+            </button>
+          </div>
+        ))
+      ) : (
+        <h1>No Messages!</h1>
+      )}
+    </div>
   )
 }
 

@@ -2,6 +2,7 @@ import axios from "axios";
 import "./dashboard.scss";
 import { toast } from 'react-toastify';
 import useDoctors from "../../hooks/useDoctors";
+import useMessages from "../../hooks/useMessages";
 import Loader from "../../components/loader/Loader";
 import AuthContext from '../../contexts/AuthContext';
 import { Link, useNavigate } from "react-router-dom";
@@ -11,9 +12,9 @@ import useAppointments from "../../hooks/useAppointment";
 const Dashboard = () => {
 
   const [patients, setPatients] = useState([]);
-  const [messages, setMessages] = useState([]);
 
   const { doctors } = useDoctors();
+  const { messages } = useMessages();
   const { appointments, isLoading } = useAppointments();
 
   const { isAuth, user } = useContext(AuthContext);
@@ -34,25 +35,9 @@ const Dashboard = () => {
     }
   };
 
-  const fetchMessages = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/message/getall`,
-        { withCredentials: true }
-      );
-
-      if (res.data.success) {
-        setMessages(res.data.data);
-      }
-
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Messages fetch failed");
-    }
-  };
-
   useEffect(() => {
     if (isAuth) {
       fetchPatients();
-      fetchMessages();
     }
   }, [isAuth]);
 
