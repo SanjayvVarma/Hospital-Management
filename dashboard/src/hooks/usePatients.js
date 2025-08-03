@@ -3,36 +3,37 @@ import { toast } from "react-toastify";
 import AuthContext from "../contexts/AuthContext";
 import { useContext, useEffect, useState } from "react";
 
-const useAppointments = () => {
-    const [appointments, setAppointments] = useState([]);
+const usePatients = () => {
+    const [patients, setPatients] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { isAuth, user } = useContext(AuthContext);
 
-    const fetchAppointments = async () => {
-        setIsLoading(true)
+    const fetchPatients = async () => {
+        setIsLoading(true);
+
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/appointment/all-appointment`,
+            const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-patient`,
                 { withCredentials: true }
             );
 
             if (res.data.success) {
-                setAppointments(res.data.data);
+                setPatients(res.data.data);
             }
 
         } catch (error) {
-            toast.error(error?.response?.data?.message || "Appointment fetch failed");
+            toast.error(error?.response?.data?.message || "Patients fetch failed");
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
     };
 
     useEffect(() => {
         if (isAuth && user.role === "Admin") {
-            fetchAppointments();
+            fetchPatients();
         }
     }, [isAuth]);
 
-    return { appointments, isLoading, fetchAppointments }
+    return { patients, isLoading, fetchPatients };
 };
 
-export default useAppointments;
+export default usePatients;

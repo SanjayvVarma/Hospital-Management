@@ -49,6 +49,7 @@ const Appointments = () => {
             if (res.data.success) {
                 toast.success(res.data.message || "Appointment Update successfully");
                 fetchAppointments();
+                setStatusData({});
             }
 
         } catch (error) {

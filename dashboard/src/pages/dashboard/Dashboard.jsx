@@ -1,45 +1,23 @@
-import axios from "axios";
 import "./dashboard.scss";
-import { toast } from 'react-toastify';
+import { useContext, useEffect } from 'react';
 import useDoctors from "../../hooks/useDoctors";
 import useMessages from "../../hooks/useMessages";
+import usePatients from "../../hooks/usePatients";
 import Loader from "../../components/loader/Loader";
 import AuthContext from '../../contexts/AuthContext';
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from 'react';
 import useAppointments from "../../hooks/useAppointment";
+import DocAppointment from "../doctorAppointment/DocAppointment";
 
 const Dashboard = () => {
 
-  const [patients, setPatients] = useState([]);
-
   const { doctors } = useDoctors();
   const { messages } = useMessages();
+  const { patients } = usePatients();
   const { appointments, isLoading } = useAppointments();
 
   const { isAuth, user } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const fetchPatients = async () => {
-    try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/v1/users/all-patient`,
-        { withCredentials: true }
-      );
-
-      if (res.data.success) {
-        setPatients(res.data.data);
-      }
-
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Patients fetch failed");
-    }
-  };
-
-  useEffect(() => {
-    if (isAuth) {
-      fetchPatients();
-    }
-  }, [isAuth]);
 
   useEffect(() => {
     if (!isAuth) {
@@ -65,27 +43,31 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="dashboardPage__details">
-        <Link to="/appointment" className="dashboardPage__details__appointment">
-          <p>Total Appointments</p>
-          <h3>{appointments.length}</h3>
-        </Link>
+      {user.role === "Admin" ? (
+        <div className="dashboardPage__details">
+          <Link to="/appointment" className="dashboardPage__details__appointment">
+            <p>Total Appointments</p>
+            <h3>{appointments.length}</h3>
+          </Link>
 
-        <Link to="/doctors" className="dashboardPage__details__doctors">
-          <p>Registered Doctors</p>
-          <h3>{doctors.length}</h3>
-        </Link>
+          <Link to="/doctors" className="dashboardPage__details__doctors">
+            <p>Registered Doctors</p>
+            <h3>{doctors.length}</h3>
+          </Link>
 
-        <Link to="/patients" className="dashboardPage__details__patients">
-          <p>Registered Patients</p>
-          <h3>{patients.length}</h3>
-        </Link>
+          <Link to="/patients" className="dashboardPage__details__patients">
+            <p>Registered Patients</p>
+            <h3>{patients.length}</h3>
+          </Link>
 
-        <Link to="/message" className="dashboardPage__details__messages">
-          <p>Messages</p>
-          <h3>{messages.length}</h3>
-        </Link>
-      </div>
+          <Link to="/message" className="dashboardPage__details__messages">
+            <p>Messages</p>
+            <h3>{messages.length}</h3>
+          </Link>
+        </div>
+      ) : (
+        <DocAppointment />
+      )}
     </div>
   )
 };

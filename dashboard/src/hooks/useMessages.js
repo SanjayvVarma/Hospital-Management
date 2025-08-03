@@ -7,7 +7,7 @@ const useMessages = () => {
 
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const { isAuth } = useContext(AuthContext);
+    const { isAuth, user } = useContext(AuthContext);
 
     const fetchMessages = async () => {
         setIsLoading(true);
@@ -29,7 +29,7 @@ const useMessages = () => {
     };
 
     useEffect(() => {
-        if (isAuth) {
+        if (isAuth && user.role === "Admin") {
             fetchMessages();
         }
     }, [isAuth]);

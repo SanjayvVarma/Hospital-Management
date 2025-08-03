@@ -7,8 +7,7 @@ const useDoctors = () => {
 
     const [doctors, setDoctors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
-    const { isAuth } = useContext(AuthContext);
+    const { isAuth, user } = useContext(AuthContext);
 
     const fetchDoctors = async () => {
         setIsLoading(true);
@@ -30,7 +29,7 @@ const useDoctors = () => {
     };
 
     useEffect(() => {
-        if (isAuth) {
+        if (isAuth && user.role === "Admin") {
             fetchDoctors();
         }
     }, [isAuth]);

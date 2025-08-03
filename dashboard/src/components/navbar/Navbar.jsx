@@ -45,15 +45,17 @@ const Navbar = () => {
           <NavLink to="/" onClick={() => setShow(!show)}>
             <FaHome /><span>Home</span>
           </NavLink>
+          {user.role === "Admin" &&
+            <>
+              <NavLink to="/add-doctor" onClick={() => setShow(!show)}>
+                <FaUserDoctor /><span>Add Doctor</span>
+              </NavLink>
 
-          <NavLink to="/add-doctor" onClick={() => setShow(!show)}>
-            <FaUserDoctor /><span>Add Doctor</span>
-          </NavLink>
-
-          <NavLink to="/add-admin" onClick={() => setShow(!show)}>
-            <FaUserShield /><span>Add Admin</span>
-          </NavLink>
-
+              <NavLink to="/add-admin" onClick={() => setShow(!show)}>
+                <FaUserShield /><span>Add Admin</span>
+              </NavLink>
+            </>
+          }
           <NavLink to="/change-password" onClick={() => setShow(!show)}>
             <FaKey /><span>Change Password</span>
           </NavLink>
